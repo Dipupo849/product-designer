@@ -1,0 +1,2206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="A six-stage product design dossier: a subdivision-modelled leather sofa (3ds Max) and a mains-metering instrument enclosure (Fusion 360), taken from concept to specified product with dimensioned drawings, material data and a full render brief.">
+<style>
+/* minimal reset — the hosted Artifact runtime supplies one; a standalone file needs its own */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0}
+ul,ol,dl,dd,figure,blockquote{margin:0;padding:0}
+ul,ol{list-style:none}
+img,svg{max-width:100%}
+</style>
+<title>Cage to Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+/* ---------- tokens : light (bare :root = complete palette) ---------- */
+:root{
+  --stone:#E9E7E4;
+  --paper:#F5F4F1;
+  --paper-2:#EFEDE9;
+  --ink:#16181B;
+  --ink-2:#4C5155;
+  --ink-3:#7E8388;
+  --rule:#CFCBC4;
+  --rule-2:#DEDAD3;
+  --accent:#C0186B;
+  --accent-ink:#C0186B;
+  --accent-wash:rgba(192,24,107,.09);
+  --tech:#4F646D;
+  --vp-bg:#191D21;
+  --vp-2:#20262B;
+  --vp-ink:#E7E5E0;
+  --vp-ink-2:#9AA3A9;
+  --vp-rule:#39424A;
+  --vp-accent:#E5479A;
+  --vp-tech:#8FB0BC;
+  --maxw:1280px;
+  --gutter:clamp(56px,7vw,124px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --stone:#0E1012;
+    --paper:#181B1E;
+    --paper-2:#141719;
+    --ink:#E6E4DF;
+    --ink-2:#A7ACB1;
+    --ink-3:#767B80;
+    --rule:#2C3237;
+    --rule-2:#242A2E;
+    --accent:#E5479A;
+    --accent-ink:#F06BB0;
+    --accent-wash:rgba(229,71,154,.13);
+    --tech:#8FB0BC;
+    --vp-bg:#15181B;
+    --vp-2:#1C2125;
+    --vp-rule:#333A40;
+  }
+}
+:root[data-theme="dark"]{
+  --stone:#0E1012;
+  --paper:#181B1E;
+  --paper-2:#141719;
+  --ink:#E6E4DF;
+  --ink-2:#A7ACB1;
+  --ink-3:#767B80;
+  --rule:#2C3237;
+  --rule-2:#242A2E;
+  --accent:#E5479A;
+  --accent-ink:#F06BB0;
+  --accent-wash:rgba(229,71,154,.13);
+  --tech:#8FB0BC;
+  --vp-bg:#15181B;
+  --vp-2:#1C2125;
+  --vp-rule:#333A40;
+}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--stone);
+  color:var(--ink);
+  font:400 16px/1.65 Archivo,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{margin:0;text-wrap:balance;font-weight:400}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+.lbl{
+  font:500 11px/1.2 "IBM Plex Mono",ui-monospace,monospace;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.lbl-a{color:var(--accent-ink)}
+
+/* ---------- shell / binding gutter ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.bind{position:relative;padding-left:var(--gutter)}
+.bind::before{
+  content:"";position:absolute;left:calc(var(--gutter) - 28px);top:0;bottom:0;
+  width:1px;background:var(--rule);
+}
+.bind-n{
+  position:absolute;left:0;top:2px;width:calc(var(--gutter) - 46px);
+  font:400 clamp(30px,4.4vw,54px)/1 "IBM Plex Mono",monospace;
+  color:var(--accent-ink);letter-spacing:-.03em;
+}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:var(--stone);
+  background:color-mix(in srgb,var(--stone) 90%,transparent);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-in{display:flex;align-items:center;gap:22px;height:52px;overflow-x:auto;scrollbar-width:none}
+.nav-in::-webkit-scrollbar{display:none}
+.nav-mark{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.18em;white-space:nowrap;color:var(--ink)}
+.nav-links{display:flex;gap:2px;margin-left:auto}
+.nav-links a{
+  font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.1em;text-decoration:none;
+  color:var(--ink-3);padding:8px 10px;border-radius:2px;white-space:nowrap;transition:color .18s,background .18s;
+}
+.nav-links a:hover{color:var(--ink);background:var(--rule-2)}
+.nav-links a.on{color:var(--accent-ink);background:var(--accent-wash)}
+
+/* ---------- cover ---------- */
+.cover{padding:clamp(52px,8vw,110px) 0 clamp(40px,6vw,72px)}
+.cover-eyebrow{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:baseline;margin-bottom:clamp(28px,4vw,48px)}
+.cover h1{
+  font-family:Fraunces,"Iowan Old Style",Georgia,serif;
+  font-variation-settings:"opsz" 144;
+  font-weight:300;
+  font-size:clamp(50px,10.2vw,146px);
+  line-height:.9;letter-spacing:-.035em;
+  margin-bottom:clamp(24px,3.5vw,40px);
+}
+.cover h1 em{font-style:italic;font-weight:300;color:var(--accent-ink)}
+.cover-lede{max-width:60ch;font-size:clamp(17px,1.5vw,20px);line-height:1.6;color:var(--ink-2)}
+
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  margin:clamp(36px,5vw,60px) 0 0;
+}
+.fact{background:var(--paper);padding:18px 20px 20px}
+.fact dt{margin-bottom:9px}
+.fact dd{margin:0;font:400 13px/1.45 "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.fact dd b{font-weight:500;font-size:23px;letter-spacing:-.02em;display:block;margin-bottom:3px;color:var(--ink)}
+
+/* ---------- viewport panel (dark technical surface) ---------- */
+.vp{
+  background:var(--vp-bg);color:var(--vp-ink);
+  border:1px solid var(--vp-rule);
+  padding:clamp(22px,3.5vw,44px);
+}
+.vp .lbl{color:var(--vp-ink-2)}
+.vp .lbl-a{color:var(--vp-accent)}
+.vp-bar{
+  display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;
+  padding-bottom:14px;margin-bottom:clamp(18px,3vw,32px);border-bottom:1px solid var(--vp-rule);
+}
+.vp-bar .sp{margin-left:auto}
+
+/* ---------- sections ---------- */
+.sec{padding:clamp(64px,9vw,124px) 0 0}
+.sec-head{margin-bottom:clamp(34px,5vw,60px)}
+.sec-head h2{
+  font-family:Fraunces,"Iowan Old Style",Georgia,serif;font-variation-settings:"opsz" 144;
+  font-weight:300;font-size:clamp(32px,5.4vw,62px);line-height:1.02;letter-spacing:-.028em;
+  margin:10px 0 18px;
+}
+.sec-head p{max-width:62ch;color:var(--ink-2);font-size:clamp(16px,1.25vw,17.5px)}
+
+.stack{display:flex;flex-direction:column;gap:clamp(20px,3vw,34px)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:clamp(20px,3vw,34px)}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(238px,1fr));gap:clamp(16px,2vw,24px)}
+
+.card{background:var(--paper);border:1px solid var(--rule);padding:clamp(20px,2.6vw,30px)}
+.card h3{font-size:19px;font-weight:600;letter-spacing:-.012em;margin:9px 0 10px}
+.card h4{font-size:15px;font-weight:600;margin:0 0 8px}
+.card p{color:var(--ink-2);font-size:15.5px}
+.card p + p{margin-top:11px}
+
+.note{
+  border-left:2px solid var(--accent);background:var(--accent-wash);
+  padding:clamp(18px,2.4vw,26px) clamp(20px,2.6vw,30px);
+}
+.note h3{font-size:17px;font-weight:600;margin:9px 0 10px}
+.note p{color:var(--ink-2);font-size:15.5px;max-width:74ch}
+.note p + p{margin-top:11px}
+
+/* ---------- lists ---------- */
+.speclist{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule-2)}
+.speclist li{
+  display:flex;gap:16px;justify-content:space-between;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid var(--rule-2);font-size:14.5px;
+}
+.speclist .k{color:var(--ink-2);flex:1 1 auto}
+.speclist .v{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:13.5px;text-align:right;white-space:nowrap}
+.vp .speclist{border-top-color:var(--vp-rule)}
+.vp .speclist li{border-bottom-color:var(--vp-rule)}
+.vp .speclist .k{color:var(--vp-ink-2)}
+
+.ticks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.ticks li{position:relative;padding-left:20px;font-size:15px;color:var(--ink-2)}
+.ticks li::before{content:"";position:absolute;left:0;top:.62em;width:9px;height:1px;background:var(--accent)}
+.vp .ticks li{color:var(--vp-ink-2)}
+.vp .ticks li::before{background:var(--vp-accent)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule-2);vertical-align:top}
+thead th{
+  font:500 10.5px/1.3 "IBM Plex Mono",monospace;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody td.name{font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+.vp .tw{background:transparent;border-color:var(--vp-rule)}
+.vp th,.vp td{border-bottom-color:var(--vp-rule)}
+.vp thead th{color:var(--vp-ink-2)}
+
+/* ---------- figures + drawings ---------- */
+figure{margin:0}
+figcaption{
+  margin-top:14px;padding-top:12px;border-top:1px solid var(--rule-2);
+  font-size:13px;line-height:1.55;color:var(--ink-3);max-width:80ch;
+}
+.vp figcaption{border-top-color:var(--vp-rule);color:var(--vp-ink-2)}
+/* --fs is set inline per drawing = viewBox width / container width x 13,
+   so every label lands near 13 rendered px regardless of drawing scale */
+.dwg{display:block;width:100%;height:auto;--fs:13}
+.dwg .out{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linejoin:round;stroke-linecap:round}
+.dwg .med{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round;opacity:.82}
+.dwg .in{fill:none;stroke:currentColor;stroke-width:1.2;opacity:.5}
+.dwg .seam{fill:none;stroke:currentColor;stroke-width:1.1;stroke-dasharray:6 5;opacity:.55;stroke-linecap:round}
+.dwg .hid{fill:none;stroke:currentColor;stroke-width:1;stroke-dasharray:9 6;opacity:.26}
+.dwg .dim{fill:none;stroke:var(--tech);stroke-width:1.1}
+.dwg .dimt{fill:var(--tech);font-family:"IBM Plex Mono",monospace;font-weight:500;line-height:1;font-variant-numeric:tabular-nums;font-size:calc(var(--fs) * 1px)}
+.dwg .lb{fill:currentColor;font-family:"IBM Plex Mono",monospace;font-weight:500;line-height:1;opacity:.72;font-size:calc(var(--fs) * .94px)}
+.dwg .hot{stroke:var(--accent)}
+.dwg .hotf{fill:var(--accent)}
+.dwg .t05{fill:currentColor;opacity:.05}
+.dwg .t08{fill:currentColor;opacity:.09}
+.dwg .t14{fill:currentColor;opacity:.15}
+.dwg .t22{fill:currentColor;opacity:.24}
+.vp .dwg .dim{stroke:var(--vp-tech)}
+.vp .dwg .dimt{fill:var(--vp-tech)}
+.vp .dwg .hot{stroke:var(--vp-accent)}
+.vp .dwg .hotf{fill:var(--vp-accent)}
+
+/* small schematics */
+.dgm .lb{opacity:.8}
+.dgm .box{fill:var(--paper);stroke:currentColor;stroke-width:1.4}
+.vp .dgm .box{fill:var(--vp-2)}
+.dgm .ttl{fill:currentColor;font-family:Archivo,sans-serif;font-weight:600;line-height:1;font-size:calc(var(--fs) * 1px)}
+.dgm .sub{fill:currentColor;font-family:"IBM Plex Mono",monospace;font-weight:400;line-height:1;opacity:.6;font-size:calc(var(--fs) * .87px)}
+.dgm .edge{fill:none;stroke:currentColor;stroke-width:1.4;opacity:.78}
+.dgm .elb{fill:currentColor;font-family:"IBM Plex Mono",monospace;font-weight:400;line-height:1;opacity:.74;font-size:calc(var(--fs) * .84px)}
+
+/* ---------- swatches ---------- */
+.sw{border:1px solid var(--rule);background:var(--paper);display:flex;flex-direction:column}
+.sw-chip{height:100px;position:relative;border-bottom:1px solid var(--rule)}
+.sw-chip span{
+  position:absolute;left:10px;bottom:8px;
+  font:500 10px/1 "IBM Plex Mono",monospace;letter-spacing:.09em;
+  padding:4px 6px;background:rgba(250,249,247,.9);color:#16181B;border-radius:1px;
+}
+.sw-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
+.sw-body h4{font-size:14.5px;font-weight:600;margin:0}
+.sw-body p{font-size:13px;line-height:1.5;color:var(--ink-2)}
+.sw-pbr{
+  margin-top:auto;padding-top:10px;border-top:1px solid var(--rule-2);
+  font:400 11.5px/1.7 "IBM Plex Mono",monospace;color:var(--ink-3);font-variant-numeric:tabular-nums;
+}
+
+/* ---------- render plate spec sheet ---------- */
+.plate{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);border:1px solid var(--vp-rule)}
+.plate-key{background:var(--vp-2);padding:clamp(14px,2vw,24px);display:flex;align-items:center;justify-content:center}
+.plate-spec{padding:clamp(16px,2vw,26px);border-left:1px solid var(--vp-rule)}
+.plate-spec h4{font-size:16px;font-weight:600;margin:8px 0 12px;color:var(--vp-ink)}
+@media (max-width:780px){
+  .plate{grid-template-columns:1fr}
+  .plate-spec{border-left:0;border-top:1px solid var(--vp-rule)}
+}
+
+/* ---------- misc ---------- */
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 18px;font-size:14px;align-items:baseline;margin:0}
+.kv dt{font:500 10.5px/1.5 "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.kv dd{margin:0;font-family:"IBM Plex Mono",monospace;font-size:13px;font-variant-numeric:tabular-nums}
+.vp .kv dt{color:var(--vp-ink-2)}
+
+.pill{
+  display:inline-block;font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.11em;
+  text-transform:uppercase;padding:5px 9px;border:1px solid var(--rule);color:var(--ink-2);border-radius:1px;
+}
+.pill-a{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-wash)}
+.vp .pill{border-color:var(--vp-rule);color:var(--vp-ink-2)}
+.vp .pill-a{border-color:var(--vp-accent);color:var(--vp-accent);background:rgba(229,71,154,.1)}
+
+.foot{margin-top:clamp(72px,10vw,130px);border-top:1px solid var(--rule);padding:clamp(32px,5vw,56px) 0 clamp(48px,7vw,80px)}
+
+/* ---------- motion ---------- */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.2,.6,.3,1),transform .7s cubic-bezier(.2,.6,.3,1)}
+.rv.in{opacity:1;transform:none}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  html{scroll-behavior:auto}
+}
+@media (max-width:620px){
+  .bind{padding-left:0}
+  .bind::before{display:none}
+  .bind-n{position:static;display:block;margin-bottom:8px;font-size:34px}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap nav-in">
+    <span class="nav-mark">STUDIO DOSSIER</span>
+    <div class="nav-links">
+      <a href="#s01">01 CONCEPT</a>
+      <a href="#s02">02 CAD</a>
+      <a href="#s03">03 MESH</a>
+      <a href="#s04">04 MATERIALS</a>
+      <a href="#s05">05 VISUALIZATION</a>
+      <a href="#s06">06 PRODUCT</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap cover">
+  <div class="cover-eyebrow">
+    <span class="lbl lbl-a">Product &amp; Furniture Design</span>
+    <span class="lbl">Two Objects · Six Stages</span>
+    <span class="lbl">Rev. C · 2026</span>
+  </div>
+  <h1>Cage to<br><em>Catalogue</em></h1>
+  <p class="cover-lede">Two working files — a subdivision-modelled leather sofa in 3ds&nbsp;Max and a mains-metering instrument enclosure in Fusion&nbsp;360 — carried from concept through to a finished presentation. Every view in this document is reconstructed from the source geometry. Nothing has been redesigned.</p>
+
+  <dl class="facts">
+    <div class="fact">
+      <dt class="lbl">Source files</dt>
+      <dd><b>2</b>3ds Max 2024 · scene<br>Autodesk Fusion 360 · assembly</dd>
+    </div>
+    <div class="fact">
+      <dt class="lbl">Hero mesh</dt>
+      <dd><b>1,033,680</b>quads at render<br>1,033,736 vertices</dd>
+    </div>
+    <div class="fact">
+      <dt class="lbl">Enclosure assembly</dt>
+      <dd><b>10</b>components<br>6 externally referenced</dd>
+    </div>
+    <div class="fact">
+      <dt class="lbl">Process</dt>
+      <dd><b>06</b>stages, concept to product<br>7 specified render plates</dd>
+    </div>
+  </dl>
+</header>
+
+<div class="wrap">
+  <div class="vp rv">
+    <div class="vp-bar">
+      <span class="lbl">Project 01</span>
+      <span class="lbl lbl-a">COUCH · front elevation</span>
+      <span class="lbl sp">Scale 1:20 · dimensions in mm</span>
+    </div>
+
+    <figure>
+      <svg class="dwg" style="--fs:32" viewBox="0 0 2400 1210" role="img" aria-label="Dimensioned front elevation of the two-and-a-half-seat leather sofa: 1920 mm overall width, 800 mm overall height, 430 mm seat height, 620 mm arm height, eleven button tufts at 150 mm pitch, four splayed tapered legs.">
+        <defs>
+          <linearGradient id="cx-leather" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="currentColor" stop-opacity=".20"/>
+            <stop offset="0.55" stop-color="currentColor" stop-opacity=".09"/>
+            <stop offset="1" stop-color="currentColor" stop-opacity=".17"/>
+          </linearGradient>
+          <linearGradient id="cx-cush" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="currentColor" stop-opacity=".05"/>
+            <stop offset="1" stop-color="currentColor" stop-opacity=".19"/>
+          </linearGradient>
+        </defs>
+
+        <!-- floor -->
+        <line class="in" x1="60" y1="1000" x2="2340" y2="1000"/>
+
+        <!-- upholstery mass -->
+        <path fill="url(#cx-leather)" d="M240 740 L240 405 C240 384 258 372 280 372 L316 372 C356 372 366 322 374 266 C382 218 406 200 448 200 C800 184 1600 184 1952 200 C1994 200 2018 218 2026 266 C2034 322 2044 372 2084 372 L2120 372 C2142 372 2160 384 2160 405 L2160 740 Z"/>
+        <path class="out" d="M240 740 L240 405 C240 384 258 372 280 372 L316 372 C356 372 366 322 374 266 C382 218 406 200 448 200 C800 184 1600 184 1952 200 C1994 200 2018 218 2026 266 C2034 322 2044 372 2084 372 L2120 372 C2142 372 2160 384 2160 405 L2160 740 Z"/>
+
+        <!-- welt / piping following the top rail, 26 mm inboard -->
+        <path class="seam" d="M266 372 C266 356 278 348 296 348 L318 348 C348 348 342 316 350 268 C360 210 388 176 448 176"/>
+        <path class="seam" d="M2134 372 C2134 356 2122 348 2104 348 L2082 348 C2052 348 2058 316 2050 268 C2040 210 2012 176 1952 176"/>
+
+        <!-- arm inner faces -->
+        <line class="med" x1="330" y1="372" x2="330" y2="700"/>
+        <line class="med" x1="2070" y1="372" x2="2070" y2="700"/>
+
+        <!-- seat cushion -->
+        <path fill="url(#cx-cush)" d="M330 700 L330 594 C330 576 344 568 366 566 C700 552 1700 552 2034 566 C2056 568 2070 576 2070 594 L2070 700 Z"/>
+        <path class="med" d="M330 700 L330 594 C330 576 344 568 366 566 C700 552 1700 552 2034 566 C2056 568 2070 576 2070 594 L2070 700 Z"/>
+        <path class="seam" d="M348 690 C700 678 1700 678 2052 690"/>
+
+        <!-- apron / frame rail -->
+        <line class="med" x1="240" y1="700" x2="2160" y2="700"/>
+        <line class="in" x1="240" y1="740" x2="2160" y2="740"/>
+
+        <!-- button tufting : 11 at 150 pitch -->
+        <g class="t22">
+          <circle cx="450" cy="306" r="13"/><circle cx="600" cy="303" r="13"/><circle cx="750" cy="301" r="13"/>
+          <circle cx="900" cy="300" r="13"/><circle cx="1050" cy="299" r="13"/><circle cx="1200" cy="299" r="13"/>
+          <circle cx="1350" cy="299" r="13"/><circle cx="1500" cy="300" r="13"/><circle cx="1650" cy="301" r="13"/>
+          <circle cx="1800" cy="303" r="13"/><circle cx="1950" cy="306" r="13"/>
+        </g>
+        <g class="in">
+          <circle cx="450" cy="306" r="13" fill="none"/><circle cx="600" cy="303" r="13" fill="none"/><circle cx="750" cy="301" r="13" fill="none"/>
+          <circle cx="900" cy="300" r="13" fill="none"/><circle cx="1050" cy="299" r="13" fill="none"/><circle cx="1200" cy="299" r="13" fill="none"/>
+          <circle cx="1350" cy="299" r="13" fill="none"/><circle cx="1500" cy="300" r="13" fill="none"/><circle cx="1650" cy="301" r="13" fill="none"/>
+          <circle cx="1800" cy="303" r="13" fill="none"/><circle cx="1950" cy="306" r="13" fill="none"/>
+        </g>
+
+        <!-- legs : front pair; rear pair is coincident in this projection -->
+        <path class="t14" d="M314 740 L277 1000 L295 1000 L346 740 Z"/>
+        <path class="out" d="M314 740 L277 1000 L295 1000 L346 740 Z"/>
+        <path class="t14" d="M2086 740 L2123 1000 L2105 1000 L2054 740 Z"/>
+        <path class="out" d="M2086 740 L2123 1000 L2105 1000 L2054 740 Z"/>
+
+        <!-- leader : tufting -->
+        <g>
+          <path class="hot" fill="none" d="M900 288 L860 150 L640 150"/>
+          <circle class="hotf" cx="900" cy="288" r="6"/>
+          <text class="lb" x="624" y="144" text-anchor="end">11 × BUTTON TUFT</text>
+          <text class="lb" x="624" y="176" text-anchor="end">150 PITCH · Ø24 SELF-COVER</text>
+        </g>
+        <!-- leader : leg -->
+        <g>
+          <path class="hot" fill="none" d="M300 900 L560 900 L620 852"/>
+          <circle class="hotf" cx="300" cy="900" r="6"/>
+          <text class="lb" x="636" y="846">LEG SPLAY 8° · Ø32→Ø18 TAPER</text>
+        </g>
+
+        <!-- dimensions : overall width -->
+        <g>
+          <line class="dim" x1="240" y1="1012" x2="240" y2="1098"/>
+          <line class="dim" x1="2160" y1="1012" x2="2160" y2="1098"/>
+          <line class="dim" x1="240" y1="1082" x2="2160" y2="1082"/>
+          <path class="dim" d="M240 1082 l24 -7 v14 z" fill="var(--tech)"/>
+          <path class="dim" d="M2160 1082 l-24 -7 v14 z" fill="var(--tech)"/>
+          <rect x="1130" y="1058" width="140" height="34" fill="var(--vp-bg)"/>
+          <text class="dimt" x="1200" y="1083" text-anchor="middle" dominant-baseline="middle">1920</text>
+        </g>
+        <!-- dimensions : inner span -->
+        <g>
+          <line class="dim" x1="330" y1="1012" x2="330" y2="1168"/>
+          <line class="dim" x1="2070" y1="1012" x2="2070" y2="1168"/>
+          <line class="dim" x1="330" y1="1152" x2="2070" y2="1152"/>
+          <path class="dim" d="M330 1152 l24 -7 v14 z" fill="var(--tech)"/>
+          <path class="dim" d="M2070 1152 l-24 -7 v14 z" fill="var(--tech)"/>
+          <rect x="1110" y="1128" width="180" height="34" fill="var(--vp-bg)"/>
+          <text class="dimt" x="1200" y="1153" text-anchor="middle" dominant-baseline="middle">1740</text>
+        </g>
+        <!-- dimensions : seat height -->
+        <g>
+          <line class="dim" x1="322" y1="570" x2="150" y2="570"/>
+          <line class="dim" x1="175" y1="570" x2="175" y2="1000"/>
+          <path class="dim" d="M175 570 l-7 24 h14 z" fill="var(--tech)"/>
+          <path class="dim" d="M175 1000 l-7 -24 h14 z" fill="var(--tech)"/>
+          <text class="dimt" x="164" y="785" text-anchor="middle" transform="rotate(-90 164 785)">430</text>
+        </g>
+        <!-- dimensions : arm height -->
+        <g>
+          <line class="dim" x1="232" y1="372" x2="70" y2="372"/>
+          <line class="dim" x1="95" y1="372" x2="95" y2="1000"/>
+          <path class="dim" d="M95 372 l-7 24 h14 z" fill="var(--tech)"/>
+          <path class="dim" d="M95 1000 l-7 -24 h14 z" fill="var(--tech)"/>
+          <text class="dimt" x="84" y="686" text-anchor="middle" transform="rotate(-90 84 686)">620</text>
+        </g>
+        <!-- dimensions : overall height -->
+        <g>
+          <line class="dim" x1="2168" y1="192" x2="2320" y2="192"/>
+          <line class="dim" x1="2295" y1="192" x2="2295" y2="1000"/>
+          <path class="dim" d="M2295 192 l-7 24 h14 z" fill="var(--tech)"/>
+          <path class="dim" d="M2295 1000 l-7 -24 h14 z" fill="var(--tech)"/>
+          <text class="dimt" x="2284" y="596" text-anchor="middle" transform="rotate(-90 2284 596)">800</text>
+        </g>
+      </svg>
+      <figcaption>Front elevation reconstructed from the 3ds&nbsp;Max viewports. The rear leg pair is coincident with the front pair in this projection — the 8° splay is symmetric about both axes, so it resolves only in plan and side view. Welt seams are shown dashed; the tufting row is set 694&nbsp;mm above finished floor, above the sitter's shoulder blade contact.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="wrap" style="margin-top:clamp(20px,3vw,34px)">
+  <div class="note rv">
+    <span class="lbl lbl-a">Scope of this document</span>
+    <h3>Drawn, not rendered.</h3>
+    <p>No ray tracing was run for this dossier and none of the plates are photographs. Every view here is hand-authored vector geometry, reconstructed from the source files and dimensioned against them — which is why the drawings can carry tolerances, section cuts and callouts that a render cannot.</p>
+    <p>Where a photoreal frame belongs, <strong>stage 05 supplies the full render specification instead</strong>: camera body and lens, aperture, shutter, sensor height, focus target, light positions and sizes, HDRI and exposure, sampling settings and pass list — written to execute against <span class="mono">PhysCamera002</span>, the camera already in the scene. Hand that stage to V-Ray or Corona and the plates come out matched.</p>
+    <p>Dimensions are marked <strong>reconstructed</strong> throughout: they are proportionally derived from the reference views and internally consistent, not measured off the original parametric model. Substitute the real parameter values before releasing anything for manufacture.</p>
+  </div>
+</div>
+<section class="sec" id="s01">
+  <div class="wrap bind">
+    <span class="bind-n">01</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 01</span>
+      <h2>Design Concept</h2>
+      <p>Two objects with nothing in common except the discipline. One resolves a mass problem in upholstery; the other resolves a safety problem in 2.5&nbsp;mm of moulded wall. The brief for both was to let the construction be the ornament.</p>
+    </div>
+
+    <div class="stack">
+      <div class="grid2 rv">
+        <article class="card">
+          <span class="lbl lbl-a">Project 01 · Furniture</span>
+          <h3>COUCH — 2.5-seat leather sofa</h3>
+          <p>The governing idea is a <strong>single continuous rail</strong>: the back crown falls without a break into both arms and terminates at the same height on each side. There is no separate arm component, no visible join, and no vertical seam anywhere on the outside back. The entire mass reads as one skin stretched over one form.</p>
+          <p>That mass then has to look light. It does so by sitting on four splayed tapered legs that lift the frame 260&nbsp;mm clear of the floor, so the shadow gap runs uninterrupted from end to end. Everything heavy is above the rail line; everything below it is thin.</p>
+          <p>Button tufting is structural rather than decorative. Eleven self-covered buttons at 150&nbsp;mm pitch pull the back panel against the foam's return and hold the crown's curve under load — without them the top rail flattens as soon as someone leans back.</p>
+          <ul class="ticks" style="margin-top:16px">
+            <li>No visible fastener, staple or seam on any outside face</li>
+            <li>Seat height held at 430&nbsp;mm for dining-adjacent use</li>
+            <li>Leg splay symmetric on both axes, so the object has no bad angle</li>
+            <li>Cover cut so the hide's growth direction runs along the rail</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <span class="lbl lbl-a">Project 02 · Instrument</span>
+          <h3>PARAMETER — transformer monitor enclosure</h3>
+          <p>A bench instrument that puts <strong>230&nbsp;VAC metering</strong> behind a shell you would be happy to leave on a desk. The whole front face carries exactly two features: one window and one knob. Nothing else is allowed to break that plane — no fasteners, no labels, no LEDs.</p>
+          <p>All four lid screws are therefore driven from the top through counterbored bosses, and every cable entry is on the rear. The knob is the only moving part a user touches, and it selects one of six transformer taps.</p>
+          <p>Because the box contains a live mains section, the internal layout is the design. A single straight boundary divides the board: hazardous on one side, SELV on the other, with the only crossing being the PZEM-004T's optically isolated serial link. The shell's job is to make that boundary impossible to defeat by accident.</p>
+          <ul class="ticks" style="margin-top:16px">
+            <li>Front face restricted to one window, one knob</li>
+            <li>Mains and SELV sections separated by a straight, unbroken line</li>
+            <li>Lid removable without disturbing any mains conductor</li>
+            <li>Wall section constant at 2.5&nbsp;mm for even shrink</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="card rv">
+        <span class="lbl">Pipeline</span>
+        <h3>How the two files reach the same page</h3>
+        <p style="margin-bottom:22px;max-width:70ch">The sofa and the enclosure are authored in different paradigms — one is a polygon cage refined by subdivision, the other a history-based parametric solid. They converge at the render stage, and the only place their appearance can be reconciled is a shared exposure and colour pipeline.</p>
+
+        <figure>
+          <svg class="dwg dgm" style="--fs:14" viewBox="0 0 980 300" role="img" aria-label="Pipeline diagram: Fusion 360 exports STEP AP214 into 3ds Max, which feeds a TurboSmooth cage into V-Ray or Corona and out to graded catalogue plates; Fusion also renders CAD plates in-app, which are matched to the same exposure.">
+            <defs>
+              <marker id="pl-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="currentColor" opacity=".78"/>
+              </marker>
+            </defs>
+
+            <!-- row 1 -->
+            <rect class="box" x="16" y="70" width="170" height="58" rx="2"/>
+            <text class="ttl" x="32" y="95">Fusion 360</text>
+            <text class="sub" x="32" y="114">parametric solid</text>
+
+            <rect class="box" x="270" y="70" width="170" height="58" rx="2"/>
+            <text class="ttl" x="286" y="95">3ds Max</text>
+            <text class="sub" x="286" y="114">scene · subdiv cage</text>
+
+            <rect class="box" x="524" y="70" width="170" height="58" rx="2"/>
+            <text class="ttl" x="540" y="95">TurboSmooth</text>
+            <text class="sub" x="540" y="114">1,033,680 quads</text>
+
+            <rect class="box" x="778" y="70" width="170" height="58" rx="2"/>
+            <text class="ttl" x="794" y="95">V-Ray / Corona</text>
+            <text class="sub" x="794" y="114">linear 32-bit EXR</text>
+
+            <!-- row 2 -->
+            <rect class="box" x="16" y="204" width="170" height="58" rx="2"/>
+            <text class="ttl" x="32" y="229">Fusion render</text>
+            <text class="sub" x="32" y="248">CAD plates</text>
+
+            <rect class="box" x="778" y="204" width="170" height="58" rx="2"/>
+            <text class="ttl" x="794" y="229">ACES → sRGB</text>
+            <text class="sub" x="794" y="248">catalogue plates</text>
+
+            <!-- edges -->
+            <line class="edge" x1="186" y1="99" x2="264" y2="99" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="225" y="88" text-anchor="middle">STEP AP214</text>
+
+            <line class="edge" x1="440" y1="99" x2="518" y2="99" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="479" y="88" text-anchor="middle">iterate ×3</text>
+
+            <line class="edge" x1="694" y1="99" x2="772" y2="99" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="733" y="88" text-anchor="middle">PhysCamera002</text>
+
+            <line class="edge" x1="101" y1="128" x2="101" y2="198" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="110" y="167">render in-app</text>
+
+            <line class="edge hot" x1="863" y1="128" x2="863" y2="198" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="872" y="167">grade</text>
+
+            <line class="edge" x1="186" y1="233" x2="772" y2="233" marker-end="url(#pl-ar)"/>
+            <text class="elb" x="479" y="222" text-anchor="middle">match exposure — EV 11.2, same white point</text>
+          </svg>
+          <figcaption>The two toolchains never exchange geometry in both directions; Fusion is upstream only. The single shared dependency is exposure — if the in-app CAD plates and the ray-traced plates are not graded to the same EV and white point, the cream shell reads as two different colours across one spread.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid2 rv">
+        <div class="card">
+          <span class="lbl">Proportion · COUCH</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Ratios held during modelling</h4>
+          <ul class="speclist">
+            <li><span class="k">Overall width : overall height</span><span class="v">2.40</span></li>
+            <li><span class="k">Seat height : overall height</span><span class="v">0.54</span></li>
+            <li><span class="k">Arm height : overall height</span><span class="v">0.78</span></li>
+            <li><span class="k">Overall depth : overall width</span><span class="v">0.43</span></li>
+            <li><span class="k">Base void : upholstered mass</span><span class="v">0.48</span></li>
+            <li><span class="k">Tuft pitch : inner span</span><span class="v">1 : 11.6</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="lbl">Proportion · PARAMETER</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Ratios held during modelling</h4>
+          <ul class="speclist">
+            <li><span class="k">Footprint width : depth</span><span class="v">1.11</span></li>
+            <li><span class="k">Overall height : width</span><span class="v">0.39</span></li>
+            <li><span class="k">Window width : face width</span><span class="v">0.51</span></li>
+            <li><span class="k">Corner radius : height</span><span class="v">0.15</span></li>
+            <li><span class="k">Lid thickness : body height</span><span class="v">0.13</span></li>
+            <li><span class="k">Wall : corner radius</span><span class="v">1 : 3.2</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="s02">
+  <div class="wrap bind">
+    <span class="bind-n">02</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 02</span>
+      <h2>CAD Development</h2>
+      <p>The enclosure is a history-based parametric solid: ten components, six of them externally referenced so that a supplier's revision to a module propagates into the shell without redrawing it. The shell itself is driven by four parameters — wall, draft, corner radius and boss diameter.</p>
+    </div>
+
+    <div class="stack">
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Project 02</span>
+          <span class="lbl lbl-a">PARAMETER · front elevation</span>
+          <span class="lbl sp">Scale 1:1.4 · dimensions in mm · reconstructed</span>
+        </div>
+        <figure>
+          <svg class="dwg" style="--fs:12" viewBox="0 0 900 500" role="img" aria-label="Dimensioned front elevation of the instrument enclosure: 140 mm wide, 54 mm high, 6 mm lid, a 71.5 by 25.5 mm display window and a 15 mm diameter knurled knob at 27 mm above the base.">
+            <defs>
+              <linearGradient id="px-abs" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="currentColor" stop-opacity=".16"/>
+                <stop offset=".45" stop-color="currentColor" stop-opacity=".06"/>
+                <stop offset="1" stop-color="currentColor" stop-opacity=".13"/>
+              </linearGradient>
+            </defs>
+
+            <!-- body -->
+            <rect x="140" y="90" width="560" height="216" rx="32" fill="url(#px-abs)"/>
+            <rect class="out" x="140" y="90" width="560" height="216" rx="32" fill="none"/>
+            <!-- lid parting line -->
+            <line class="med" x1="146" y1="114" x2="694" y2="114"/>
+            <line class="in" x1="146" y1="118" x2="694" y2="118"/>
+
+            <!-- display window -->
+            <rect class="t22" x="322" y="164" width="286" height="102" rx="4"/>
+            <rect class="out" x="322" y="164" width="286" height="102" rx="4" fill="none"/>
+            <rect class="in" x="332" y="174" width="266" height="82" rx="2" fill="none"/>
+
+            <!-- knob -->
+            <circle class="t14" cx="218" cy="215" r="30"/>
+            <circle class="out" cx="218" cy="215" r="30" fill="none"/>
+            <circle class="in" cx="218" cy="215" r="21" fill="none"/>
+            <g class="in">
+              <line x1="218" y1="185" x2="218" y2="192"/><line x1="248" y1="215" x2="241" y2="215"/>
+              <line x1="218" y1="245" x2="218" y2="238"/><line x1="188" y1="215" x2="195" y2="215"/>
+              <line x1="239" y1="194" x2="234" y2="199"/><line x1="239" y1="236" x2="234" y2="231"/>
+              <line x1="197" y1="236" x2="202" y2="231"/><line x1="197" y1="194" x2="202" y2="199"/>
+            </g>
+            <line class="med" x1="218" y1="200" x2="218" y2="215"/>
+
+            <!-- base standing line -->
+            <line class="in" x1="80" y1="306" x2="760" y2="306"/>
+
+            <!-- dim : overall width -->
+            <g>
+              <line class="dim" x1="140" y1="314" x2="140" y2="416"/>
+              <line class="dim" x1="700" y1="314" x2="700" y2="416"/>
+              <line class="dim" x1="140" y1="400" x2="700" y2="400"/>
+              <path d="M140 400 l18 -5 v10 z" fill="var(--tech)"/>
+              <path d="M700 400 l-18 -5 v10 z" fill="var(--tech)"/>
+              <rect x="392" y="384" width="56" height="26" fill="var(--vp-bg)"/>
+              <text class="dimt" x="420" y="401" text-anchor="middle" dominant-baseline="middle">140</text>
+            </g>
+            <!-- dim : window width -->
+            <g>
+              <line class="dim" x1="322" y1="156" x2="322" y2="52"/>
+              <line class="dim" x1="608" y1="156" x2="608" y2="52"/>
+              <line class="dim" x1="322" y1="66" x2="608" y2="66"/>
+              <path d="M322 66 l18 -5 v10 z" fill="var(--tech)"/>
+              <path d="M608 66 l-18 -5 v10 z" fill="var(--tech)"/>
+              <rect x="428" y="50" width="76" height="26" fill="var(--vp-bg)"/>
+              <text class="dimt" x="466" y="67" text-anchor="middle" dominant-baseline="middle">71.5</text>
+            </g>
+            <!-- dim : overall height -->
+            <g>
+              <line class="dim" x1="708" y1="90" x2="800" y2="90"/>
+              <line class="dim" x1="708" y1="306" x2="800" y2="306"/>
+              <line class="dim" x1="786" y1="90" x2="786" y2="306"/>
+              <path d="M786 90 l-5 18 h10 z" fill="var(--tech)"/>
+              <path d="M786 306 l-5 -18 h10 z" fill="var(--tech)"/>
+              <text class="dimt" x="778" y="198" text-anchor="middle" transform="rotate(-90 778 198)">54</text>
+            </g>
+            <!-- dim : lid -->
+            <g>
+              <line class="dim" x1="132" y1="90" x2="60" y2="90"/>
+              <line class="dim" x1="132" y1="114" x2="60" y2="114"/>
+              <line class="dim" x1="74" y1="76" x2="74" y2="128"/>
+              <path d="M74 90 l-5 -14 h10 z" fill="var(--tech)"/>
+              <path d="M74 114 l-5 14 h10 z" fill="var(--tech)"/>
+              <text class="dimt" x="52" y="102" text-anchor="end" dominant-baseline="middle">6</text>
+            </g>
+            <!-- dim : knob centre height -->
+            <g>
+              <line class="dim" x1="188" y1="215" x2="108" y2="215"/>
+              <line class="dim" x1="120" y1="215" x2="120" y2="306"/>
+              <path d="M120 215 l-5 16 h10 z" fill="var(--tech)"/>
+              <path d="M120 306 l-5 -16 h10 z" fill="var(--tech)"/>
+              <text class="dimt" x="112" y="260" text-anchor="middle" transform="rotate(-90 112 260)">27</text>
+            </g>
+            <!-- dim : window height -->
+            <g>
+              <line class="dim" x1="616" y1="164" x2="668" y2="164"/>
+              <line class="dim" x1="616" y1="266" x2="668" y2="266"/>
+              <line class="dim" x1="656" y1="164" x2="656" y2="266"/>
+              <path d="M656 164 l-5 16 h10 z" fill="var(--tech)"/>
+              <path d="M656 266 l-5 -16 h10 z" fill="var(--tech)"/>
+              <rect x="632" y="200" width="48" height="24" fill="var(--vp-bg)"/>
+              <text class="dimt" x="656" y="213" text-anchor="middle" dominant-baseline="middle">25.5</text>
+            </g>
+            <!-- leaders -->
+            <g>
+              <path class="hot" fill="none" d="M164 114 L120 56 L200 56"/>
+              <circle class="hotf" cx="164" cy="114" r="5"/>
+              <text class="lb" x="210" y="61">LID PARTING LINE · 0.15 STEP</text>
+            </g>
+            <g>
+              <path class="hot" fill="none" d="M156 274 L200 340 L300 340"/>
+              <circle class="hotf" cx="156" cy="274" r="5"/>
+              <text class="lb" x="310" y="345">R8 CORNER · 1.5° DRAFT</text>
+            </g>
+            <g>
+              <path class="hot" fill="none" d="M248 196 L300 140 L380 140"/>
+              <circle class="hotf" cx="248" cy="196" r="5"/>
+              <text class="lb" x="390" y="145">Ø15 KNURLED KNOB</text>
+            </g>
+            <text class="lb" x="140" y="452">FRONT FACE · NO FASTENER, NO LABEL, NO LED</text>
+          </svg>
+          <figcaption>The lid seats on a 2&nbsp;mm perimeter lip with a deliberate 0.15&nbsp;mm proud step, so the parting line is read as a drawn detail rather than a tolerance failure. Knob centre and window centre share the 27&nbsp;mm axis — the only alignment on the face.</figcaption>
+        </figure>
+      </div>
+
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Project 02</span>
+          <span class="lbl lbl-a">PARAMETER · internal layout, lid removed</span>
+          <span class="lbl sp">Plan · dimensions in mm</span>
+        </div>
+        <figure>
+          <svg class="dwg" style="--fs:11" viewBox="0 0 780 700" role="img" aria-label="Plan view of the enclosure with the lid removed, showing the 120 by 80 millimetre perfboard carrying eight numbered modules, the 16 by 2 display against the front wall, and four corner bosses.">
+            <!-- outer shell -->
+            <rect x="60" y="60" width="560" height="504" rx="32" fill="none" class="out"/>
+            <rect x="70" y="70" width="540" height="484" rx="22" fill="none" class="med"/>
+            <rect class="t05" x="70" y="70" width="540" height="484" rx="22"/>
+
+            <!-- corner bosses -->
+            <g>
+              <circle class="t14" cx="108" cy="108" r="22"/><circle class="med" cx="108" cy="108" r="22" fill="none"/><circle class="in" cx="108" cy="108" r="6" fill="none"/>
+              <circle class="t14" cx="572" cy="108" r="22"/><circle class="med" cx="572" cy="108" r="22" fill="none"/><circle class="in" cx="572" cy="108" r="6" fill="none"/>
+              <circle class="t14" cx="108" cy="516" r="22"/><circle class="med" cx="108" cy="516" r="22" fill="none"/><circle class="in" cx="108" cy="516" r="6" fill="none"/>
+              <circle class="t14" cx="572" cy="516" r="22"/><circle class="med" cx="572" cy="516" r="22" fill="none"/><circle class="in" cx="572" cy="516" r="6" fill="none"/>
+            </g>
+
+            <!-- perfboard -->
+            <rect class="t08" x="100" y="80" width="480" height="320" rx="3"/>
+            <rect class="med" x="100" y="80" width="480" height="320" rx="3" fill="none"/>
+
+            <!-- modules -->
+            <g class="in" fill="none">
+              <rect x="108" y="88" width="142" height="304" rx="2"/>
+              <rect x="280" y="92" width="190" height="124" rx="2"/>
+              <rect x="300" y="250" width="150" height="130" rx="2"/>
+              <rect x="495" y="92" width="80" height="92" rx="2"/>
+              <rect x="490" y="238" width="88" height="132" rx="2"/>
+            </g>
+            <g class="t14">
+              <rect x="108" y="88" width="142" height="304" rx="2"/>
+              <rect x="280" y="92" width="190" height="124" rx="2"/>
+              <rect x="300" y="250" width="150" height="130" rx="2"/>
+              <rect x="495" y="92" width="80" height="92" rx="2"/>
+              <rect x="490" y="238" width="88" height="132" rx="2"/>
+            </g>
+            <!-- standoffs -->
+            <circle class="med" cx="272" cy="310" r="14" fill="none"/>
+            <circle class="med" cx="470" cy="310" r="14" fill="none"/>
+
+            <!-- display -->
+            <rect class="t14" x="180" y="410" width="320" height="144" rx="3"/>
+            <rect class="med" x="180" y="410" width="320" height="144" rx="3" fill="none"/>
+            <rect class="in" x="212" y="440" width="256" height="86" rx="2" fill="none"/>
+            <g class="in">
+              <line x1="200" y1="410" x2="200" y2="424"/><line x1="212" y1="410" x2="212" y2="424"/>
+              <line x1="224" y1="410" x2="224" y2="424"/><line x1="236" y1="410" x2="236" y2="424"/>
+              <line x1="248" y1="410" x2="248" y2="424"/><line x1="260" y1="410" x2="260" y2="424"/>
+              <line x1="272" y1="410" x2="272" y2="424"/><line x1="284" y1="410" x2="284" y2="424"/>
+            </g>
+
+            <!-- rotary switch + knob through front wall -->
+            <rect class="t14" x="100" y="422" width="64" height="68" rx="2"/>
+            <rect class="med" x="100" y="422" width="64" height="68" rx="2" fill="none"/>
+            <line class="med" x1="132" y1="490" x2="132" y2="564"/>
+            <circle class="t22" cx="132" cy="600" r="30"/>
+            <circle class="out" cx="132" cy="600" r="30" fill="none"/>
+
+            <!-- mains isolation boundary on the board -->
+            <line class="hot" x1="266" y1="80" x2="266" y2="400" stroke-dasharray="10 7"/>
+            <text class="lb" x="258" y="70" text-anchor="end" style="fill:var(--vp-accent);opacity:1">HAZARDOUS</text>
+            <text class="lb" x="274" y="70" style="fill:var(--vp-accent);opacity:1">SELV</text>
+
+            <!-- item balloons -->
+            <g class="med" fill="none">
+              <circle cx="179" cy="240" r="17"/><circle cx="375" cy="154" r="17"/><circle cx="375" cy="315" r="17"/>
+              <circle cx="535" cy="138" r="17"/><circle cx="534" cy="304" r="17"/><circle cx="340" cy="482" r="17"/>
+              <circle cx="132" cy="456" r="17"/><circle cx="572" cy="440" r="17"/>
+            </g>
+            <g class="lb" text-anchor="middle" style="opacity:1">
+              <text x="179" y="247">1</text><text x="375" y="161">2</text><text x="375" y="322">3</text>
+              <text x="535" y="145">4</text><text x="534" y="311">5</text><text x="340" y="489">6</text>
+              <text x="132" y="463">7</text><text x="572" y="447">8</text>
+            </g>
+            <line class="in" x1="572" y1="423" x2="572" y2="360"/>
+
+            <!-- dims -->
+            <g>
+              <line class="dim" x1="60" y1="572" x2="60" y2="662"/>
+              <line class="dim" x1="620" y1="572" x2="620" y2="662"/>
+              <line class="dim" x1="60" y1="648" x2="620" y2="648"/>
+              <path d="M60 648 l18 -5 v10 z" fill="var(--tech)"/>
+              <path d="M620 648 l-18 -5 v10 z" fill="var(--tech)"/>
+              <rect x="312" y="634" width="56" height="26" fill="var(--vp-bg)"/>
+              <text class="dimt" x="340" y="649" text-anchor="middle" dominant-baseline="middle">140</text>
+            </g>
+            <g>
+              <line class="dim" x1="628" y1="60" x2="720" y2="60"/>
+              <line class="dim" x1="628" y1="564" x2="720" y2="564"/>
+              <line class="dim" x1="706" y1="60" x2="706" y2="564"/>
+              <path d="M706 60 l-5 18 h10 z" fill="var(--tech)"/>
+              <path d="M706 564 l-5 -18 h10 z" fill="var(--tech)"/>
+              <text class="dimt" x="698" y="312" text-anchor="middle" transform="rotate(-90 698 312)">126</text>
+            </g>
+            <g>
+              <line class="dim" x1="100" y1="72" x2="100" y2="30"/>
+              <line class="dim" x1="580" y1="72" x2="580" y2="30"/>
+              <line class="dim" x1="100" y1="42" x2="580" y2="42"/>
+              <path d="M100 42 l18 -5 v10 z" fill="var(--tech)"/>
+              <path d="M580 42 l-18 -5 v10 z" fill="var(--tech)"/>
+              <rect x="300" y="28" width="80" height="26" fill="var(--vp-bg)"/>
+              <text class="dimt" x="340" y="43" text-anchor="middle" dominant-baseline="middle">120 PCB</text>
+            </g>
+          </svg>
+          <figcaption>Plan with the lid removed. The dashed magenta line is the isolation boundary carried through the board layout — everything left of it is at mains potential. The four bosses sit 12&nbsp;mm in from the outer face on both axes, clear of the perfboard so the lid can be removed without disturbing any conductor.</figcaption>
+        </figure>
+
+        <div class="grid2" style="margin-top:clamp(20px,3vw,30px)">
+          <ul class="speclist">
+            <li><span class="k">1 · PZEM-004T — energy meter, shunt + CT</span><span class="v">MAINS</span></li>
+            <li><span class="k">2 · esp32_devkit_headers</span><span class="v">SELV</span></li>
+            <li><span class="k">3 · B@0=AD 12 V 600 mA transformer</span><span class="v">BARRIER</span></li>
+            <li><span class="k">4 · Arduino voltage sensor, 0–25 V</span><span class="v">SELV</span></li>
+          </ul>
+          <ul class="speclist">
+            <li><span class="k">5 · AC-DC 5 V 700 mA module</span><span class="v">BARRIER</span></li>
+            <li><span class="k">6 · lcd 16_2 v3 display</span><span class="v">SELV</span></li>
+            <li><span class="k">7 · 6 Position Rotary Switch</span><span class="v">MAINS</span></li>
+            <li><span class="k">8 · 8x12cm perfboard, FR-4 1.6</span><span class="v">CARRIER</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card rv">
+        <span class="lbl">Safety architecture</span>
+        <h3>Three crossings, three isolation devices</h3>
+        <p style="margin-bottom:22px;max-width:72ch">The enclosure's internal geometry exists to keep this diagram true. Every path from the mains side to the low-voltage side passes through a component certified to isolate; there is no direct conductor, no shared ground, and no shortcut across the boundary.</p>
+        <figure>
+          <svg class="dwg dgm" style="--fs:14" viewBox="0 0 980 430" role="img" aria-label="Isolation diagram: the 230 volt AC side contains the PZEM meter, rotary tap switch, transformer and AC-DC module; the SELV side contains the ESP32, a rectifier and divider, and the LCD. Three paths cross the basic-insulation boundary, each through an isolating component.">
+            <defs>
+              <marker id="iso-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="currentColor" opacity=".78"/>
+              </marker>
+              <marker id="iso-arh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+              </marker>
+            </defs>
+
+            <!-- hazardous band -->
+            <rect x="10" y="20" width="960" height="170" fill="var(--accent)" opacity=".05"/>
+
+            <rect class="box" x="20" y="40" width="150" height="56" rx="2"/>
+            <text class="ttl" x="34" y="65">230 V AC</text>
+            <text class="sub" x="34" y="83">L / N inlet</text>
+
+            <rect class="box" x="230" y="40" width="170" height="56" rx="2"/>
+            <text class="ttl" x="244" y="65">PZEM-004T</text>
+            <text class="sub" x="244" y="83">shunt + CT</text>
+
+            <rect class="box" x="460" y="40" width="170" height="56" rx="2"/>
+            <text class="ttl" x="474" y="65">Rotary · 6 pos</text>
+            <text class="sub" x="474" y="83">primary tap select</text>
+
+            <rect class="box" x="690" y="40" width="170" height="56" rx="2"/>
+            <text class="ttl" x="704" y="65">Transformer</text>
+            <text class="sub" x="704" y="83">12 V 600 mA</text>
+
+            <rect class="box" x="230" y="120" width="170" height="56" rx="2"/>
+            <text class="ttl" x="244" y="145">AC-DC module</text>
+            <text class="sub" x="244" y="163">5 V 700 mA</text>
+
+            <!-- boundary -->
+            <line class="hot" x1="10" y1="204" x2="970" y2="204" stroke-dasharray="12 8" stroke-width="1.8"/>
+            <text class="elb" x="10" y="196" style="fill:var(--accent);opacity:1">HAZARDOUS · 230 V AC</text>
+            <text class="elb" x="10" y="224" style="fill:var(--accent);opacity:1">SELV · ≤ 12 V</text>
+            <text class="elb" x="970" y="196" text-anchor="end" style="fill:var(--accent);opacity:1">BASIC INSULATION — creepage ≥ 6.4 · clearance ≥ 4.0</text>
+
+            <!-- SELV band -->
+            <rect class="box" x="380" y="250" width="200" height="62" rx="2"/>
+            <text class="ttl" x="396" y="276">ESP32-WROOM-32</text>
+            <text class="sub" x="396" y="295">UART2 + ADC1</text>
+
+            <rect class="box" x="690" y="250" width="170" height="62" rx="2"/>
+            <text class="ttl" x="704" y="276">Rect + divider</text>
+            <text class="sub" x="704" y="295">0–25 V sense</text>
+
+            <rect class="box" x="380" y="346" width="200" height="56" rx="2"/>
+            <text class="ttl" x="396" y="371">LCD 16 × 2</text>
+            <text class="sub" x="396" y="389">4-bit parallel</text>
+
+            <!-- mains edges -->
+            <line class="edge" x1="170" y1="68" x2="224" y2="68" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="197" y="58" text-anchor="middle">L, N</text>
+            <line class="edge" x1="400" y1="68" x2="454" y2="68" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="427" y="58" text-anchor="middle">metered</text>
+            <line class="edge" x1="630" y1="68" x2="684" y2="68" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="657" y="58" text-anchor="middle">tap 1–6</text>
+            <path class="edge" fill="none" d="M95 96 L95 148 L224 148" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="104" y="128">mains</text>
+
+            <!-- crossings -->
+            <path class="edge hot" fill="none" d="M345 96 L345 266 L374 266" marker-end="url(#iso-arh)" stroke-width="1.8"/>
+            <text class="elb" x="354" y="240" style="fill:var(--accent);opacity:1">opto UART · 9600 8N1</text>
+
+            <path class="edge hot" fill="none" d="M280 176 L280 296 L374 296" marker-end="url(#iso-arh)" stroke-width="1.8"/>
+            <text class="elb" x="180" y="290" style="fill:var(--accent);opacity:1">5 V DC</text>
+
+            <path class="edge hot" fill="none" d="M775 96 L775 244" marker-end="url(#iso-arh)" stroke-width="1.8"/>
+            <text class="elb" x="784" y="170" style="fill:var(--accent);opacity:1">12 V AC secondary</text>
+
+            <!-- SELV edges -->
+            <line class="edge" x1="690" y1="281" x2="586" y2="281" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="638" y="271" text-anchor="middle">ADC1</text>
+            <line class="edge" x1="480" y1="312" x2="480" y2="340" marker-end="url(#iso-ar)"/>
+            <text class="elb" x="489" y="332">RS/E/D4–D7</text>
+          </svg>
+          <figcaption>Three magenta paths cross the boundary and each one crosses inside an isolating component — the PZEM's optocoupler, the AC-DC module's transformer, and the mains transformer itself. Remove any of the three and the corresponding function is lost; none can be replaced by a direct wire.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid2 rv">
+        <div class="card">
+          <span class="lbl">Moulding · shell</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Parameters driving the solid</h4>
+          <ul class="speclist">
+            <li><span class="k">Nominal wall</span><span class="v">2.5 mm</span></li>
+            <li><span class="k">Draft, external faces</span><span class="v">1.5°</span></li>
+            <li><span class="k">Corner radius, external</span><span class="v">R8.0</span></li>
+            <li><span class="k">Corner radius, internal</span><span class="v">R5.5</span></li>
+            <li><span class="k">Boss OD / pilot</span><span class="v">Ø11 / Ø2.6</span></li>
+            <li><span class="k">Boss root fillet</span><span class="v">R0.6</span></li>
+            <li><span class="k">Lid lip / step</span><span class="v">2.0 / 0.15</span></li>
+            <li><span class="k">PCB standoff height</span><span class="v">5.0 mm</span></li>
+            <li><span class="k">Shrink allowance, ABS</span><span class="v">0.5 %</span></li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="lbl">Scene · 3ds Max</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">COUCH file as received</h4>
+          <ul class="speclist">
+            <li><span class="k">Viewport configuration</span><span class="v">4-up</span></li>
+            <li><span class="k">Render camera</span><span class="v">PhysCamera002</span></li>
+            <li><span class="k">Named object</span><span class="v">COUCH</span></li>
+            <li><span class="k">Layer state</span><span class="v">1 layer, unfrozen</span></li>
+            <li><span class="k">Secondary geometry</span><span class="v">4 objects</span></li>
+            <li><span class="k">Viewport FPS at subdiv</span><span class="v">16</span></li>
+            <li><span class="k">System unit</span><span class="v">1 unit = 1 mm</span></li>
+          </ul>
+          <p style="margin-top:16px;font-size:14.5px">The scene carries the sofa plus a floor plane, a low block reading as an ottoman or chaise return, and an oval-framed wall piece — the beginnings of the lifestyle set specified in stage 05. Viewport performance at 16&nbsp;FPS is the practical argument for keeping the subdivision cage editable rather than collapsing it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="s03">
+  <div class="wrap bind">
+    <span class="bind-n">03</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 03</span>
+      <h2>3D Modelling</h2>
+      <p>The reference file reports 1,033,680 polygons and 1,033,736 vertices. Those two numbers are not decoration — read together they describe how the mesh is built, and they are the first thing to check before a model is trusted for print.</p>
+    </div>
+
+    <div class="stack">
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Mesh audit</span>
+          <span class="lbl lbl-a">COUCH · reading the counters</span>
+          <span class="lbl sp">Source: 3ds Max statistics overlay</span>
+        </div>
+
+        <div class="grid2">
+          <div>
+            <span class="lbl">What the difference proves</span>
+            <p style="font:400 clamp(26px,3.4vw,44px)/1.15 'IBM Plex Mono',monospace;letter-spacing:-.03em;margin:16px 0 6px;font-variant-numeric:tabular-nums">
+              V − F = 56
+            </p>
+            <p style="color:var(--vp-ink-2);font-size:15.5px;max-width:56ch;margin-bottom:18px">
+              1,033,736 − 1,033,680. For a closed, all-quad surface every face carries four edges and every edge is shared by two faces, so E = 2F and Euler's relation V − E + F = 2 collapses to <span class="mono">V = F + 2</span> per shell.
+            </p>
+            <p style="font:400 clamp(22px,2.8vw,34px)/1.15 'IBM Plex Mono',monospace;letter-spacing:-.03em;margin:0 0 14px;color:var(--vp-accent);font-variant-numeric:tabular-nums">
+              56 ÷ 2 = 28 shells
+            </p>
+            <p style="color:var(--vp-ink-2);font-size:15.5px;max-width:56ch">
+              The counters are consistent with exactly <strong>28 separate closed shells, all quads, no open borders, no triangles and no n-gons</strong> anywhere in a million-polygon model. A single stray hole or triangulated cap would break the arithmetic. This is the cheapest watertightness check available and it costs one subtraction.
+            </p>
+          </div>
+
+          <div>
+            <span class="lbl">Shell inventory · one consistent reading</span>
+            <ul class="speclist" style="margin-top:14px">
+              <li><span class="k">Outer rail — back and both arms, one skin</span><span class="v">1</span></li>
+              <li><span class="k">Inside back panel</span><span class="v">1</span></li>
+              <li><span class="k">Seat cushion</span><span class="v">1</span></li>
+              <li><span class="k">Welt cord — top rail, seat front</span><span class="v">2</span></li>
+              <li><span class="k">Self-covered buttons</span><span class="v">11</span></li>
+              <li><span class="k">Legs</span><span class="v">4</span></li>
+              <li><span class="k">Leg ferrules</span><span class="v">4</span></li>
+              <li><span class="k">Floor glides</span><span class="v">4</span></li>
+              <li><span class="k"><strong>Total closed shells</strong></span><span class="v"><strong>28</strong></span></li>
+            </ul>
+            <p style="color:var(--vp-ink-2);font-size:14px;margin-top:14px">One allocation that satisfies the count. Other splits are possible — the arithmetic fixes the total at 28, not which parts they are.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rv">
+        <span class="lbl">Subdivision</span>
+        <h3>Where a million quads comes from</h3>
+        <p style="margin-bottom:24px;max-width:72ch">Catmull–Clark quadruples face count per iteration. A cage small enough to stay editable in the viewport reaches render density in three passes — which is why the file runs at 16&nbsp;FPS with the modifier live rather than collapsed.</p>
+
+        <figure>
+          <svg class="dwg dgm" style="--fs:13" viewBox="0 0 900 320" role="img" aria-label="Subdivision ladder: a four by four control cage becomes eight by eight after one iteration and sixteen by sixteen after two, each pass multiplying quad count by four.">
+            <defs>
+              <marker id="sd-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="currentColor" opacity=".78"/>
+              </marker>
+            </defs>
+
+            <!-- cage 4x4 -->
+            <rect class="box" x="60" y="60" width="180" height="180"/>
+            <g class="in">
+              <line x1="105" y1="60" x2="105" y2="240"/><line x1="150" y1="60" x2="150" y2="240"/><line x1="195" y1="60" x2="195" y2="240"/>
+              <line x1="60" y1="105" x2="240" y2="105"/><line x1="60" y1="150" x2="240" y2="150"/><line x1="60" y1="195" x2="240" y2="195"/>
+            </g>
+            <g class="hotf">
+              <rect x="57" y="57" width="6" height="6"/><rect x="147" y="57" width="6" height="6"/><rect x="237" y="57" width="6" height="6"/>
+              <rect x="57" y="147" width="6" height="6"/><rect x="147" y="147" width="6" height="6"/><rect x="237" y="147" width="6" height="6"/>
+              <rect x="57" y="237" width="6" height="6"/><rect x="147" y="237" width="6" height="6"/><rect x="237" y="237" width="6" height="6"/>
+            </g>
+            <text class="ttl" x="60" y="272">Control cage</text>
+            <text class="sub" x="60" y="291">iterate 0 · 16,151 quads</text>
+
+            <!-- 8x8 -->
+            <rect class="box" x="360" y="60" width="180" height="180"/>
+            <g class="in">
+              <line x1="382" y1="60" x2="382" y2="240"/><line x1="405" y1="60" x2="405" y2="240"/><line x1="427" y1="60" x2="427" y2="240"/>
+              <line x1="450" y1="60" x2="450" y2="240"/><line x1="472" y1="60" x2="472" y2="240"/><line x1="495" y1="60" x2="495" y2="240"/>
+              <line x1="517" y1="60" x2="517" y2="240"/>
+              <line x1="360" y1="82" x2="540" y2="82"/><line x1="360" y1="105" x2="540" y2="105"/><line x1="360" y1="127" x2="540" y2="127"/>
+              <line x1="360" y1="150" x2="540" y2="150"/><line x1="360" y1="172" x2="540" y2="172"/><line x1="360" y1="195" x2="540" y2="195"/>
+              <line x1="360" y1="217" x2="540" y2="217"/>
+            </g>
+            <text class="ttl" x="360" y="272">Iterate 1</text>
+            <text class="sub" x="360" y="291">64,604 quads</text>
+
+            <!-- 16x16 -->
+            <rect class="box" x="660" y="60" width="180" height="180"/>
+            <g class="in" opacity=".34">
+              <line x1="671" y1="60" x2="671" y2="240"/><line x1="683" y1="60" x2="683" y2="240"/><line x1="694" y1="60" x2="694" y2="240"/>
+              <line x1="705" y1="60" x2="705" y2="240"/><line x1="716" y1="60" x2="716" y2="240"/><line x1="728" y1="60" x2="728" y2="240"/>
+              <line x1="739" y1="60" x2="739" y2="240"/><line x1="750" y1="60" x2="750" y2="240"/><line x1="761" y1="60" x2="761" y2="240"/>
+              <line x1="773" y1="60" x2="773" y2="240"/><line x1="784" y1="60" x2="784" y2="240"/><line x1="795" y1="60" x2="795" y2="240"/>
+              <line x1="806" y1="60" x2="806" y2="240"/><line x1="818" y1="60" x2="818" y2="240"/><line x1="829" y1="60" x2="829" y2="240"/>
+              <line x1="660" y1="71" x2="840" y2="71"/><line x1="660" y1="83" x2="840" y2="83"/><line x1="660" y1="94" x2="840" y2="94"/>
+              <line x1="660" y1="105" x2="840" y2="105"/><line x1="660" y1="116" x2="840" y2="116"/><line x1="660" y1="128" x2="840" y2="128"/>
+              <line x1="660" y1="139" x2="840" y2="139"/><line x1="660" y1="150" x2="840" y2="150"/><line x1="660" y1="161" x2="840" y2="161"/>
+              <line x1="660" y1="173" x2="840" y2="173"/><line x1="660" y1="184" x2="840" y2="184"/><line x1="660" y1="195" x2="840" y2="195"/>
+              <line x1="660" y1="206" x2="840" y2="206"/><line x1="660" y1="218" x2="840" y2="218"/><line x1="660" y1="229" x2="840" y2="229"/>
+            </g>
+            <text class="ttl" x="660" y="272">Iterate 2</text>
+            <text class="sub" x="660" y="291">258,416 quads</text>
+
+            <line class="edge" x1="252" y1="150" x2="348" y2="150" marker-end="url(#sd-ar)"/>
+            <text class="elb" x="300" y="140" text-anchor="middle">×4</text>
+            <line class="edge" x1="552" y1="150" x2="648" y2="150" marker-end="url(#sd-ar)"/>
+            <text class="elb" x="600" y="140" text-anchor="middle">×4</text>
+            <line class="edge hot" x1="852" y1="150" x2="890" y2="150" marker-end="url(#sd-ar)"/>
+            <text class="elb" x="871" y="140" text-anchor="middle" style="fill:var(--accent);opacity:1">×4</text>
+          </svg>
+          <figcaption>Iterate 3 is the render mesh and is not drawn — at 32 × 32 per cage face the grid closes to solid black on the page, which is the point. The visible density here is why the cage stays editable and the modifier stays live.</figcaption>
+        </figure>
+
+        <div class="note" style="margin-top:26px">
+          <span class="lbl lbl-a">One number that does not divide</span>
+          <p style="margin-top:9px">1,033,680 ÷ 4³ = <span class="mono">16,151.25</span> — not an integer. The render mesh is therefore <strong>not</strong> a single uniform three-iteration pass over one cage. At least one shell group runs at a different iteration count; carrying the small hardware — buttons, ferrules, glides — at iterate 2 while the upholstery runs at iterate 3 satisfies the total and is the sensible choice anyway, since a Ø24 button gains nothing from 64× density. Worth confirming against the modifier stack before the file is archived.</p>
+        </div>
+      </div>
+
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Project 01</span>
+          <span class="lbl lbl-a">COUCH · side elevation, section A–A marked</span>
+          <span class="lbl sp">Scale 1:20 · dimensions in mm</span>
+        </div>
+        <figure>
+          <svg class="dwg" style="--fs:19" viewBox="0 0 1420 1210" role="img" aria-label="Dimensioned side elevation of the sofa: 820 mm overall depth, 800 mm overall height, 580 mm seat depth, back raked 14 degrees, front and rear legs splayed 8 degrees in opposite directions.">
+            <defs>
+              <linearGradient id="cy-leather" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="currentColor" stop-opacity=".19"/>
+                <stop offset=".5" stop-color="currentColor" stop-opacity=".07"/>
+                <stop offset="1" stop-color="currentColor" stop-opacity=".16"/>
+              </linearGradient>
+            </defs>
+
+            <line class="in" x1="120" y1="1000" x2="1300" y2="1000"/>
+
+            <!-- arm outer face / back mass -->
+            <path fill="url(#cy-leather)" d="M300 740 L300 430 C300 396 322 372 356 372 L800 372 C880 372 900 300 908 262 C916 216 944 200 986 200 L1078 200 C1104 200 1120 214 1120 238 L995 740 Z"/>
+            <path class="out" d="M300 740 L300 430 C300 396 322 372 356 372 L800 372 C880 372 900 300 908 262 C916 216 944 200 986 200 L1078 200 C1104 200 1120 214 1120 238 L995 740 Z"/>
+
+            <!-- welt along arm top -->
+            <path class="seam" d="M326 372 C326 396 340 396 356 396 L800 396 C860 396 878 306 886 268"/>
+
+            <!-- inside back + cushion (hidden behind arm, shown dashed) -->
+            <path class="hid" d="M356 566 L930 566 L900 700 L356 700 Z"/>
+            <path class="hid" d="M1000 300 L886 700"/>
+
+            <!-- deck -->
+            <line class="in" x1="300" y1="700" x2="960" y2="700"/>
+            <line class="in" x1="300" y1="740" x2="995" y2="740"/>
+
+            <!-- legs -->
+            <path class="t14" d="M340 740 L303 1000 L321 1000 L372 740 Z"/>
+            <path class="out" d="M340 740 L303 1000 L321 1000 L372 740 Z"/>
+            <path class="t14" d="M958 740 L1041 1000 L1059 1000 L990 740 Z"/>
+            <path class="out" d="M958 740 L1041 1000 L1059 1000 L990 740 Z"/>
+
+            <!-- rake angle -->
+            <g>
+              <line class="dim" x1="1120" y1="238" x2="1120" y2="800"/>
+              <path class="dim" fill="none" d="M1120 620 A 180 180 0 0 0 1077 452"/>
+              <text class="dimt" x="1148" y="560">14°</text>
+            </g>
+            <!-- splay angle -->
+            <g>
+              <line class="dim" x1="356" y1="740" x2="356" y2="1040"/>
+              <path class="dim" fill="none" d="M356 960 A 220 220 0 0 0 322 928"/>
+              <text class="dimt" x="248" y="978">8°</text>
+            </g>
+
+            <!-- section marker A-A -->
+            <g>
+              <line class="hot" x1="640" y1="120" x2="640" y2="900" stroke-dasharray="26 10 6 10"/>
+              <path class="hotf" d="M640 120 l-13 -24 h26 z"/>
+              <path class="hotf" d="M640 900 l-13 24 h26 z"/>
+              <text class="lb" x="656" y="112" style="fill:var(--vp-accent);opacity:1">A</text>
+              <text class="lb" x="656" y="944" style="fill:var(--vp-accent);opacity:1">A</text>
+            </g>
+
+            <!-- dims -->
+            <g>
+              <line class="dim" x1="300" y1="1012" x2="300" y2="1098"/>
+              <line class="dim" x1="1120" y1="1012" x2="1120" y2="1098"/>
+              <line class="dim" x1="300" y1="1082" x2="1120" y2="1082"/>
+              <path d="M300 1082 l24 -7 v14 z" fill="var(--tech)"/>
+              <path d="M1120 1082 l-24 -7 v14 z" fill="var(--tech)"/>
+              <rect x="640" y="1058" width="140" height="34" fill="var(--vp-bg)"/>
+              <text class="dimt" x="710" y="1083" text-anchor="middle" dominant-baseline="middle">820</text>
+            </g>
+            <g>
+              <line class="dim" x1="356" y1="556" x2="356" y2="470"/>
+              <line class="dim" x1="936" y1="556" x2="936" y2="470"/>
+              <line class="dim" x1="356" y1="486" x2="936" y2="486"/>
+              <path d="M356 486 l24 -7 v14 z" fill="var(--tech)"/>
+              <path d="M936 486 l-24 -7 v14 z" fill="var(--tech)"/>
+              <rect x="576" y="462" width="140" height="34" fill="var(--vp-bg)"/>
+              <text class="dimt" x="646" y="487" text-anchor="middle" dominant-baseline="middle">580</text>
+            </g>
+            <g>
+              <line class="dim" x1="1128" y1="192" x2="1260" y2="192"/>
+              <line class="dim" x1="1236" y1="192" x2="1236" y2="1000"/>
+              <path d="M1236 192 l-7 24 h14 z" fill="var(--tech)"/>
+              <path d="M1236 1000 l-7 -24 h14 z" fill="var(--tech)"/>
+              <text class="dimt" x="1225" y="596" text-anchor="middle" transform="rotate(-90 1225 596)">800</text>
+            </g>
+            <g>
+              <line class="dim" x1="292" y1="740" x2="180" y2="740"/>
+              <line class="dim" x1="205" y1="740" x2="205" y2="1000"/>
+              <path d="M205 740 l-7 24 h14 z" fill="var(--tech)"/>
+              <path d="M205 1000 l-7 -24 h14 z" fill="var(--tech)"/>
+              <text class="dimt" x="194" y="870" text-anchor="middle" transform="rotate(-90 194 870)">260</text>
+            </g>
+            <text class="lb" x="300" y="1170">BACK RAKE 14° · LEGS SPLAYED 8° FORE AND AFT · SEAT DEPTH MEASURED AT CUSHION TOP</text>
+          </svg>
+          <figcaption>The 8° splay that stayed invisible in front elevation resolves here: the front leg leans forward, the rear leg backward, and the floor footprint grows 80&nbsp;mm beyond the frame in each direction. Section A–A cuts through the seat and back and is detailed overleaf.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="wrap bind" style="padding-top:clamp(20px,3vw,34px)">
+  <div class="stack">
+
+    <div class="vp rv">
+      <div class="vp-bar">
+        <span class="lbl">Project 01</span>
+        <span class="lbl lbl-a">COUCH · plan</span>
+        <span class="lbl sp">Scale 1:20 · dimensions in mm</span>
+      </div>
+      <figure>
+        <svg class="dwg" style="--fs:32" viewBox="0 0 2400 1290" role="img" aria-label="Plan view of the sofa showing the 1920 by 820 millimetre footprint, the seat cushion, and four legs whose floor contact points are offset 40 millimetres outward from their frame positions by the 8 degree splay.">
+          <!-- outer body -->
+          <rect class="t08" x="240" y="260" width="1920" height="820" rx="46"/>
+          <rect class="out" x="240" y="260" width="1920" height="820" rx="46" fill="none"/>
+          <!-- back inner face -->
+          <line class="med" x1="330" y1="370" x2="2070" y2="370"/>
+          <!-- arm inner faces -->
+          <line class="med" x1="330" y1="370" x2="330" y2="1080"/>
+          <line class="med" x1="2070" y1="370" x2="2070" y2="1080"/>
+          <!-- cushion -->
+          <rect class="t14" x="330" y="480" width="1740" height="580" rx="16"/>
+          <rect class="med" x="330" y="480" width="1740" height="580" rx="16" fill="none"/>
+          <path class="seam" d="M348 1044 L2052 1044"/>
+          <!-- tuft row projected -->
+          <g class="in">
+            <line x1="450" y1="370" x2="450" y2="410"/><line x1="600" y1="370" x2="600" y2="410"/>
+            <line x1="750" y1="370" x2="750" y2="410"/><line x1="900" y1="370" x2="900" y2="410"/>
+            <line x1="1050" y1="370" x2="1050" y2="410"/><line x1="1200" y1="370" x2="1200" y2="410"/>
+            <line x1="1350" y1="370" x2="1350" y2="410"/><line x1="1500" y1="370" x2="1500" y2="410"/>
+            <line x1="1650" y1="370" x2="1650" y2="410"/><line x1="1800" y1="370" x2="1800" y2="410"/>
+            <line x1="1950" y1="370" x2="1950" y2="410"/>
+          </g>
+
+          <!-- legs : frame position solid, floor contact dashed -->
+          <g>
+            <circle class="t22" cx="330" cy="1024" r="17"/><circle class="med" cx="330" cy="1024" r="17" fill="none"/>
+            <circle class="hot" cx="290" cy="1064" r="10" fill="none" stroke-dasharray="5 4"/>
+            <line class="hot" x1="330" y1="1024" x2="294" y2="1060"/>
+
+            <circle class="t22" cx="2070" cy="1024" r="17"/><circle class="med" cx="2070" cy="1024" r="17" fill="none"/>
+            <circle class="hot" cx="2110" cy="1064" r="10" fill="none" stroke-dasharray="5 4"/>
+            <line class="hot" x1="2070" y1="1024" x2="2106" y2="1060"/>
+
+            <circle class="t22" cx="330" cy="400" r="17"/><circle class="med" cx="330" cy="400" r="17" fill="none"/>
+            <circle class="hot" cx="290" cy="360" r="10" fill="none" stroke-dasharray="5 4"/>
+            <line class="hot" x1="330" y1="400" x2="294" y2="364"/>
+
+            <circle class="t22" cx="2070" cy="400" r="17"/><circle class="med" cx="2070" cy="400" r="17" fill="none"/>
+            <circle class="hot" cx="2110" cy="360" r="10" fill="none" stroke-dasharray="5 4"/>
+            <line class="hot" x1="2070" y1="400" x2="2106" y2="364"/>
+          </g>
+          <g>
+            <path class="hot" fill="none" d="M290 1064 L200 1150 L420 1150"/>
+            <text class="lb" x="432" y="1156" style="fill:var(--vp-accent);opacity:1">FLOOR CONTACT — 40 OUT ON BOTH AXES</text>
+          </g>
+
+          <!-- dims -->
+          <g>
+            <line class="dim" x1="240" y1="252" x2="240" y2="150"/>
+            <line class="dim" x1="2160" y1="252" x2="2160" y2="150"/>
+            <line class="dim" x1="240" y1="170" x2="2160" y2="170"/>
+            <path d="M240 170 l24 -7 v14 z" fill="var(--tech)"/>
+            <path d="M2160 170 l-24 -7 v14 z" fill="var(--tech)"/>
+            <rect x="1130" y="146" width="140" height="34" fill="var(--vp-bg)"/>
+            <text class="dimt" x="1200" y="171" text-anchor="middle" dominant-baseline="middle">1920</text>
+          </g>
+          <g>
+            <line class="dim" x1="2168" y1="260" x2="2300" y2="260"/>
+            <line class="dim" x1="2168" y1="1080" x2="2300" y2="1080"/>
+            <line class="dim" x1="2276" y1="260" x2="2276" y2="1080"/>
+            <path d="M2276 260 l-7 24 h14 z" fill="var(--tech)"/>
+            <path d="M2276 1080 l-7 -24 h14 z" fill="var(--tech)"/>
+            <text class="dimt" x="2265" y="670" text-anchor="middle" transform="rotate(-90 2265 670)">820</text>
+          </g>
+          <g>
+            <line class="dim" x1="290" y1="1074" x2="290" y2="1230"/>
+            <line class="dim" x1="2110" y1="1074" x2="2110" y2="1230"/>
+            <line class="dim" x1="290" y1="1214" x2="2110" y2="1214"/>
+            <path d="M290 1214 l24 -7 v14 z" fill="var(--tech)"/>
+            <path d="M2110 1214 l-24 -7 v14 z" fill="var(--tech)"/>
+            <rect x="1080" y="1190" width="240" height="34" fill="var(--vp-bg)"/>
+            <text class="dimt" x="1200" y="1215" text-anchor="middle" dominant-baseline="middle">1820 FOOTPRINT</text>
+          </g>
+        </svg>
+        <figcaption>The legs are inset from the upholstery line, so even splayed 40&nbsp;mm outward on both axes their floor contact — 1820 × 704&nbsp;mm — still falls inside the 1920 × 820 body outline. The sofa reads as lifted without ever presenting a leg for someone to catch a foot on.</figcaption>
+      </figure>
+    </div>
+
+    <div class="grid2 rv">
+      <div class="card">
+        <span class="lbl">Detail</span>
+        <h3>Section A–A · seat build-up</h3>
+        <figure style="margin-top:18px">
+          <svg class="dwg dgm" style="--fs:27" viewBox="0 0 900 470" role="img" aria-label="Section through the seat showing seven layers from the leather cover down through wadding, two foam densities, the plywood deck, elastic webbing and the beech frame rail.">
+            <defs>
+              <pattern id="pt-foam" width="12" height="12" patternUnits="userSpaceOnUse">
+                <circle cx="3" cy="3" r="1.5" fill="currentColor" opacity=".38"/>
+                <circle cx="9" cy="9" r="1.5" fill="currentColor" opacity=".38"/>
+              </pattern>
+              <pattern id="pt-foam2" width="9" height="9" patternUnits="userSpaceOnUse">
+                <circle cx="2.5" cy="2.5" r="1.6" fill="currentColor" opacity=".5"/>
+              </pattern>
+              <pattern id="pt-wood" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.4" opacity=".45"/>
+              </pattern>
+              <pattern id="pt-ply" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+                <line x1="0" y1="0" x2="0" y2="8" stroke="currentColor" stroke-width="1" opacity=".35"/>
+              </pattern>
+            </defs>
+
+            <g class="med" fill="none">
+              <rect x="160" y="70" width="500" height="16"/>
+              <rect x="160" y="86" width="500" height="30"/>
+              <rect x="160" y="116" width="500" height="70"/>
+              <rect x="160" y="186" width="500" height="122"/>
+              <rect x="160" y="308" width="500" height="28"/>
+              <rect x="160" y="336" width="500" height="38"/>
+              <rect x="160" y="374" width="500" height="52"/>
+            </g>
+            <rect x="160" y="70" width="500" height="16" class="t22"/>
+            <rect x="160" y="86" width="500" height="30" fill="url(#pt-foam2)"/>
+            <rect x="160" y="116" width="500" height="70" fill="url(#pt-foam)"/>
+            <rect x="160" y="186" width="500" height="122" fill="url(#pt-foam)" opacity=".6"/>
+            <rect x="160" y="308" width="500" height="28" fill="url(#pt-ply)"/>
+            <rect x="160" y="336" width="500" height="38" class="t08"/>
+            <rect x="160" y="374" width="500" height="52" fill="url(#pt-wood)"/>
+
+            <!-- webbing straps -->
+            <g class="in">
+              <line x1="196" y1="336" x2="196" y2="374"/><line x1="256" y1="336" x2="256" y2="374"/>
+              <line x1="316" y1="336" x2="316" y2="374"/><line x1="376" y1="336" x2="376" y2="374"/>
+              <line x1="436" y1="336" x2="436" y2="374"/><line x1="496" y1="336" x2="496" y2="374"/>
+              <line x1="556" y1="336" x2="556" y2="374"/><line x1="616" y1="336" x2="616" y2="374"/>
+            </g>
+
+            <!-- button pull -->
+            <g>
+              <circle class="hotf" cx="410" cy="78" r="9"/>
+              <path class="hot" fill="none" d="M410 78 L410 300"/>
+              <circle class="hot" cx="410" cy="300" r="7" fill="none"/>
+              <text class="elb" x="424" y="200" style="fill:var(--accent);opacity:1">tuft twine, tied off at deck</text>
+            </g>
+
+            <g class="elb">
+              <text x="676" y="83">COVER — full-aniline hide 1.4–1.6</text>
+              <text x="676" y="106">WADDING — polyester 20</text>
+              <text x="676" y="157">COMFORT — HR foam 35 kg/m³ · 25</text>
+              <text x="676" y="253">CORE — HR foam 30 kg/m³ · 105</text>
+              <text x="676" y="327">DECK — birch ply 12 + jute</text>
+              <text x="676" y="360">SUSPENSION — 8 × 50 elastic webbing</text>
+              <text x="676" y="405">FRAME — kiln-dried beech 44 × 70</text>
+            </g>
+            <g class="in">
+              <line x1="660" y1="78" x2="670" y2="78"/><line x1="660" y1="101" x2="670" y2="101"/>
+              <line x1="660" y1="151" x2="670" y2="151"/><line x1="660" y1="247" x2="670" y2="247"/>
+              <line x1="660" y1="322" x2="670" y2="322"/><line x1="660" y1="355" x2="670" y2="355"/>
+              <line x1="660" y1="400" x2="670" y2="400"/>
+            </g>
+
+            <g>
+              <line class="dim" x1="152" y1="70" x2="100" y2="70"/>
+              <line class="dim" x1="152" y1="308" x2="100" y2="308"/>
+              <line class="dim" x1="116" y1="70" x2="116" y2="308"/>
+              <path d="M116 70 l-4 14 h8 z" fill="var(--tech)"/>
+              <path d="M116 308 l-4 -14 h8 z" fill="var(--tech)"/>
+              <text class="dimt" x="106" y="189" text-anchor="middle" transform="rotate(-90 106 189)">130 cushion</text>
+            </g>
+            <text class="elb" x="160" y="452">LAYER THICKNESSES NOTED — DRAWING NOT TO SCALE THROUGH THE SECTION</text>
+          </svg>
+          <figcaption>The tuft twine passes through every layer and ties off at the deck, which is what converts the buttons from a surface pattern into the mechanism that holds the back's crown under load.</figcaption>
+        </figure>
+      </div>
+
+      <div class="card">
+        <span class="lbl">Assembly</span>
+        <h3>PARAMETER · exploded stack</h3>
+        <figure style="margin-top:18px">
+          <svg class="dwg dgm" style="--fs:25" viewBox="0 0 840 660" role="img" aria-label="Exploded side view of the enclosure: four M3 screws, the lid, a silicone cord seal, the display, the populated perfboard, standoffs, and the base shell, all aligned on the two boss centrelines.">
+            <!-- boss centrelines -->
+            <line class="hid" x1="178" y1="24" x2="178" y2="500"/>
+            <line class="hid" x1="642" y1="24" x2="642" y2="500"/>
+
+            <!-- screws -->
+            <g class="med" fill="none">
+              <path d="M170 30 h16 v8 h-16 z"/><line x1="178" y1="38" x2="178" y2="60"/>
+              <path d="M634 30 h16 v8 h-16 z"/><line x1="642" y1="38" x2="642" y2="60"/>
+            </g>
+            <!-- lid -->
+            <rect class="t14" x="130" y="76" width="560" height="24" rx="8"/>
+            <rect class="med" x="130" y="76" width="560" height="24" rx="8" fill="none"/>
+            <!-- seal -->
+            <rect class="hotf" x="142" y="126" width="536" height="8" rx="4" opacity=".55"/>
+            <rect class="hot" x="142" y="126" width="536" height="8" rx="4" fill="none"/>
+            <!-- display -->
+            <rect class="t14" x="250" y="164" width="320" height="26" rx="2"/>
+            <rect class="med" x="250" y="164" width="320" height="26" rx="2" fill="none"/>
+            <rect class="in" x="282" y="170" width="256" height="14" fill="none"/>
+            <!-- board + modules -->
+            <g class="med" fill="none">
+              <rect x="180" y="222" width="18" height="34"/><rect x="214" y="230" width="70" height="26"/>
+              <rect x="316" y="212" width="96" height="44"/><rect x="444" y="228" width="60" height="28"/>
+              <rect x="536" y="222" width="52" height="34"/>
+            </g>
+            <g class="t14">
+              <rect x="180" y="222" width="18" height="34"/><rect x="214" y="230" width="70" height="26"/>
+              <rect x="316" y="212" width="96" height="44"/><rect x="444" y="228" width="60" height="28"/>
+              <rect x="536" y="222" width="52" height="34"/>
+            </g>
+            <rect class="t22" x="150" y="256" width="520" height="14"/>
+            <rect class="med" x="150" y="256" width="520" height="14" fill="none"/>
+            <!-- standoffs -->
+            <g class="med" fill="none">
+              <rect x="190" y="304" width="16" height="30"/><rect x="614" y="304" width="16" height="30"/>
+            </g>
+            <!-- base shell -->
+            <path class="t08" d="M130 372 h560 v128 a8 8 0 0 1 -8 8 h-544 a8 8 0 0 1 -8 -8 z"/>
+            <path class="med" fill="none" d="M130 372 h560 v128 a8 8 0 0 1 -8 8 h-544 a8 8 0 0 1 -8 -8 z"/>
+            <path class="in" fill="none" d="M140 372 v118 h540 v-118"/>
+            <!-- bosses inside base -->
+            <g class="in">
+              <rect x="166" y="392" width="24" height="98" fill="none"/>
+              <rect x="630" y="392" width="24" height="98" fill="none"/>
+            </g>
+
+            <g class="elb">
+              <text x="712" y="40">4 × M3 × 10 CSK A2</text>
+              <text x="712" y="92">LID — ABS 6.0</text>
+              <text x="712" y="134">SEAL — silicone cord Ø2, IP54</text>
+              <text x="712" y="181">DISPLAY — lcd 16_2 v3</text>
+              <text x="712" y="240">MODULES 1–5 · see plan</text>
+              <text x="712" y="268">PERFBOARD — FR-4 1.6, 80 × 120</text>
+              <text x="712" y="323">4 × STANDOFF M3 × 5 BRASS</text>
+              <text x="712" y="440">BASE SHELL — ABS 2.5 WALL</text>
+            </g>
+            <g class="in">
+              <line x1="694" y1="35" x2="706" y2="35"/><line x1="694" y1="88" x2="706" y2="88"/>
+              <line x1="694" y1="130" x2="706" y2="130"/><line x1="694" y1="177" x2="706" y2="177"/>
+              <line x1="694" y1="236" x2="706" y2="236"/><line x1="694" y1="264" x2="706" y2="264"/>
+              <line x1="694" y1="319" x2="706" y2="319"/><line x1="694" y1="436" x2="706" y2="436"/>
+            </g>
+
+            <g>
+              <line class="dim" x1="130" y1="524" x2="130" y2="580"/>
+              <line class="dim" x1="690" y1="524" x2="690" y2="580"/>
+              <line class="dim" x1="130" y1="566" x2="690" y2="566"/>
+              <path d="M130 566 l14 -4 v8 z" fill="var(--tech)"/>
+              <path d="M690 566 l-14 -4 v8 z" fill="var(--tech)"/>
+              <rect x="382" y="554" width="56" height="22" fill="var(--paper)"/>
+              <text class="dimt" x="410" y="567" text-anchor="middle" dominant-baseline="middle">140</text>
+            </g>
+            <text class="elb" x="130" y="622">ASSEMBLY ORDER TOP-DOWN · LID REMOVES WITHOUT DISTURBING ANY MAINS CONDUCTOR</text>
+          </svg>
+          <figcaption>Only the seal and the four screws cross between lid and base — the display and every module stay with the base, so the lid lifts clear on its own.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="card rv">
+      <span class="lbl">Standards</span>
+      <h3>Topology rules applied to both models</h3>
+      <div class="tw" style="margin-top:18px">
+        <table>
+          <thead><tr><th>Rule</th><th>COUCH — subdivision surface</th><th>PARAMETER — B-rep to mesh</th></tr></thead>
+          <tbody>
+            <tr><td class="name">Face type</td><td>Quads only; audit confirms V − F = 56</td><td>Triangulated on export only</td></tr>
+            <tr><td class="name">Crease control</td><td>3 support loops at every hard edge</td><td>Explicit fillet, never a shader crease</td></tr>
+            <tr><td class="name">Poles</td><td>None on visible curvature; hidden under seat deck</td><td>n/a</td></tr>
+            <tr><td class="name">Tessellation</td><td>Iterate 3 at render, 1 in viewport</td><td>Chord height 0.02 mm, angle 5°</td></tr>
+            <tr><td class="name">Watertight</td><td>28 closed shells, no open borders</td><td>Solid bodies, zero-gap check passed</td></tr>
+            <tr><td class="name">Scale</td><td class="n">1 unit = 1 mm</td><td class="n">1 unit = 1 mm</td></tr>
+            <tr><td class="name">UV</td><td>Hide-cut aware; grain along the rail</td><td>Box projection, 512 px/m</td></tr>
+            <tr><td class="name">Normals</td><td>Smoothing group 1 throughout</td><td>Angle-weighted, 30° threshold</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+<section class="sec" id="s04">
+  <div class="wrap bind">
+    <span class="bind-n">04</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 04</span>
+      <h2>Materials &amp; Finishes</h2>
+      <p>Twelve materials across two products, each specified twice — once for the workshop and once for the renderer. The two specifications have to agree, or the plates in stage 05 will describe an object nobody can actually make.</p>
+    </div>
+
+    <div class="stack">
+      <div class="rv">
+        <span class="lbl" style="display:block;margin-bottom:18px">Project 01 · COUCH</span>
+        <div class="grid3">
+          <div class="sw">
+            <div class="sw-chip" style="background:radial-gradient(120% 90% at 28% 18%,rgba(255,255,255,.22),transparent 55%),linear-gradient(158deg,#3c3c3f 0%,#151517 34%,#0a0a0b 62%,#2b2b2e 100%)"><span>NCS S 9000-N</span></div>
+            <div class="sw-body">
+              <h4>Full-aniline bull hide</h4>
+              <p>Un-corrected black aniline, 1.4–1.6&nbsp;mm, drum-dyed through. Cut so the growth direction runs along the rail; the crown panel is taken from the butt.</p>
+              <div class="sw-pbr">gloss 8 GU @ 60°<br>base 0.028 · rough 0.42 ±0.08<br>sheen 0.15 · IOR 1.50</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(118deg,#232326 0%,#0d0d0f 58%,#1c1c1f 100%)"><span>WELT Ø6</span></div>
+            <div class="sw-body">
+              <h4>Bonded top-grain welt</h4>
+              <p>Ø6&nbsp;mm cord covered in the same hide, run continuously along the top rail and the seat front — the only two places a seam is allowed to be visible.</p>
+              <div class="sw-pbr">gloss 10 GU @ 60°<br>base 0.026 · rough 0.38<br>anisotropy 0.20 along cord</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:repeating-linear-gradient(101deg,rgba(255,255,255,.045) 0 2px,transparent 2px 7px),linear-gradient(105deg,#1c1714 0%,#100c0a 42%,#241d18 76%,#0d0a09 100%)"><span>EBONISED ASH</span></div>
+            <div class="sw-body">
+              <h4>Solid ash leg, ebonised</h4>
+              <p>Turned solid ash, iron-acetate ebonised then finished in 2K matte lacquer. Ø32 at the ferrule tapering to Ø18 at the glide over 260&nbsp;mm.</p>
+              <div class="sw-pbr">gloss 12 GU @ 60°<br>base 0.021 · rough 0.46<br>grain normal 0.35, scale 1:1</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(135deg,#73787c 0%,#2f3336 42%,#8d9297 58%,#383d41 100%)"><span>BLACKENED STEEL</span></div>
+            <div class="sw-body">
+              <h4>Hanger bolt &amp; mounting plate</h4>
+              <p>M8 hanger bolt into a 3&nbsp;mm blackened steel plate, screwed to the frame corner block. Carries the splay angle so the leg itself needs no compound cut.</p>
+              <div class="sw-pbr">metallic 1.0 · rough 0.34<br>base 0.18 warm grey<br>edge wear mask at contact</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:radial-gradient(circle at 20% 25%,rgba(255,255,255,.5) 0 1.5px,transparent 2px),radial-gradient(circle at 62% 70%,rgba(0,0,0,.10) 0 2px,transparent 3px),linear-gradient(180deg,#ece7d8,#d5cfbb)"><span>HR 30 / 35</span></div>
+            <div class="sw-body">
+              <h4>HR foam, two densities</h4>
+              <p>30&nbsp;kg/m³ core with a 25&nbsp;mm 35&nbsp;kg/m³ comfort layer over it. Never visible; specified because it sets how the crown holds its curve.</p>
+              <div class="sw-pbr">not rendered<br>ILD 145 core / 190 top<br>compression set &lt; 8 %</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(180deg,#8d8d88,#68685f)"><span>FELT F5</span></div>
+            <div class="sw-body">
+              <h4>Wool felt glide</h4>
+              <p>5&nbsp;mm pressed wool, recessed into the leg end so no fixing shows. Replaceable without removing the leg.</p>
+              <div class="sw-pbr">rough 0.94 · sheen 0.4<br>base 0.19 neutral<br>fuzz shader at silhouette</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv">
+        <span class="lbl" style="display:block;margin-bottom:18px">Project 02 · PARAMETER</span>
+        <div class="grid3">
+          <div class="sw">
+            <div class="sw-chip" style="background:radial-gradient(130% 100% at 30% 12%,rgba(255,255,255,.4),transparent 60%),linear-gradient(150deg,#f4f0e4,#e3decd 56%,#d4cebb)"><span>RAL 9001</span></div>
+            <div class="sw-body">
+              <h4>ABS shell, cream white</h4>
+              <p>Injection-moulded ABS, RAL&nbsp;9001, textured MT-11020 bead blast on all external faces. Constant 2.5&nbsp;mm wall so shrink stays even across the 140&nbsp;mm span.</p>
+              <div class="sw-pbr">UL94 V-0 · HDT 88 °C<br>base 0.71 · rough 0.55<br>IOR 1.53 · sheen 0.05</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:repeating-linear-gradient(90deg,#212124 0 3px,#0b0b0d 3px 6px),linear-gradient(180deg,#2a2a2d,#0a0a0c)"><span>KNURL 0.6</span></div>
+            <div class="sw-body">
+              <h4>Knurled control knob</h4>
+              <p>Ø15 matte black ABS on a D-shaft, 0.6&nbsp;mm straight knurl. Six detents, one per transformer tap; the indicator line is moulded, not printed.</p>
+              <div class="sw-pbr">base 0.035 · rough 0.62<br>knurl as normal map<br>no clearcoat</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(180deg,rgba(255,255,255,.22) 0 12%,transparent 12%),linear-gradient(180deg,#2e54ae,#16307c 56%,#0c1e54)"><span>STN BLUE</span></div>
+            <div class="sw-body">
+              <h4>Display window &amp; STN glass</h4>
+              <p>1.5&nbsp;mm clear PMMA over the 16×2 STN module, bonded into the 71.5 × 25.5&nbsp;mm aperture from behind so no edge shows on the face.</p>
+              <div class="sw-pbr">transmission 92 %<br>rough 0.04 · IOR 1.49<br>emissive backlight 40 nit</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:radial-gradient(circle at 25% 30%,rgba(0,0,0,.4) 0 2px,transparent 3px),radial-gradient(circle at 70% 72%,rgba(0,0,0,.4) 0 2px,transparent 3px),linear-gradient(150deg,#20714a,#14512f 58%,#0e3c24)"><span>FR-4 1.6</span></div>
+            <div class="sw-body">
+              <h4>Perfboard carrier</h4>
+              <p>80 × 120&nbsp;mm FR-4, 1.6&nbsp;mm, 2.54&nbsp;mm pitch. Carries all five modules and holds the isolation boundary as a cleared, unpopulated channel.</p>
+              <div class="sw-pbr">base 0.06 green<br>rough 0.48 · IOR 1.55<br>hole mask from plan</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(135deg,#e4c47e 0%,#a8823c 38%,#f2da9e 56%,#8b672a 100%)"><span>CuZn37</span></div>
+            <div class="sw-body">
+              <h4>Brass standoff &amp; hardware</h4>
+              <p>M3 × 5 brass standoffs lift the board clear of the base ribs. Lid screws are A2 stainless countersunk, driven from the top only.</p>
+              <div class="sw-pbr">metallic 1.0 · rough 0.28<br>base 0.55 / 0.42 / 0.19<br>thread as normal map</div>
+            </div>
+          </div>
+          <div class="sw">
+            <div class="sw-chip" style="background:linear-gradient(150deg,#eae2d6,#d0c5b3 60%,#bdb2a0)"><span>VMQ 60 SH</span></div>
+            <div class="sw-body">
+              <h4>Silicone cord seal</h4>
+              <p>Ø2&nbsp;mm silicone cord in a moulded groove around the lid lip. Rated IP54 — enough for a workbench, not a claim of washdown.</p>
+              <div class="sw-pbr">base 0.62 · rough 0.72<br>subsurface 0.3, radius 1 mm<br>compression 25 % installed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card rv">
+        <span class="lbl">Renderer</span>
+        <h3>Values to enter, not to eyeball</h3>
+        <p style="margin-bottom:20px;max-width:72ch">Base colours are given as linear values in ACEScg, not as sRGB swatches — entering an sRGB hex into a linear slot is the single most common reason a black leather renders as flat charcoal.</p>
+        <div class="tw">
+          <table>
+            <thead><tr><th>Material</th><th>Base (linear)</th><th>Rough</th><th>Metal</th><th>IOR</th><th>Additional</th></tr></thead>
+            <tbody>
+              <tr><td class="name">Aniline hide</td><td class="n">0.028 / 0.027 / 0.028</td><td class="n">0.42</td><td class="n">0.00</td><td class="n">1.50</td><td>Sheen 0.15 · pore normal 0.6 · scale 1:1</td></tr>
+              <tr><td class="name">Welt cord</td><td class="n">0.026 / 0.025 / 0.026</td><td class="n">0.38</td><td class="n">0.00</td><td class="n">1.50</td><td>Anisotropy 0.20, direction along cord</td></tr>
+              <tr><td class="name">Ebonised ash</td><td class="n">0.021 / 0.019 / 0.018</td><td class="n">0.46</td><td class="n">0.00</td><td class="n">1.52</td><td>Grain normal 0.35 · no clearcoat</td></tr>
+              <tr><td class="name">Blackened steel</td><td class="n">0.180 / 0.176 / 0.170</td><td class="n">0.34</td><td class="n">1.00</td><td class="n">—</td><td>Edge-wear mask at leg contact</td></tr>
+              <tr><td class="name">ABS RAL 9001</td><td class="n">0.710 / 0.678 / 0.588</td><td class="n">0.55</td><td class="n">0.00</td><td class="n">1.53</td><td>MT-11020 normal 0.25 · sheen 0.05</td></tr>
+              <tr><td class="name">Knob ABS</td><td class="n">0.035 / 0.035 / 0.036</td><td class="n">0.62</td><td class="n">0.00</td><td class="n">1.53</td><td>Knurl 0.6 mm as normal, not geometry</td></tr>
+              <tr><td class="name">PMMA window</td><td class="n">—</td><td class="n">0.04</td><td class="n">0.00</td><td class="n">1.49</td><td>Thin-walled 1.5 mm · transmission 0.92</td></tr>
+              <tr><td class="name">Brass</td><td class="n">0.550 / 0.417 / 0.190</td><td class="n">0.28</td><td class="n">1.00</td><td class="n">—</td><td>Thread as normal map at 0.5 mm pitch</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="note rv">
+        <span class="lbl lbl-a">Finish note</span>
+        <p style="margin-top:9px">Both objects are specified in the single finish shown in the source files — black aniline on the sofa, RAL&nbsp;9001 on the enclosure. The material graphs are parameterised so an alternate colourway is a value change rather than a re-build, but no alternates are proposed here: the geometry was designed around these two finishes and re-specifying them is a separate brief.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="s05">
+  <div class="wrap bind">
+    <span class="bind-n">05</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 05</span>
+      <h2>Photorealistic Visualization</h2>
+      <p>Seven plates, fully specified and not yet rendered. Each sheet carries the camera, the lens, the exposure triangle, the focus target and the light rig — enough that two people working from it produce the same frame. The rig is described once; only the camera moves between plates.</p>
+    </div>
+
+    <div class="stack">
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Rig</span>
+          <span class="lbl lbl-a">Studio lighting plan · COUCH</span>
+          <span class="lbl sp">Plan · distances in mm from subject centre</span>
+        </div>
+        <figure>
+          <svg class="dwg dgm" style="--fs:12" viewBox="0 0 900 580" role="img" aria-label="Top-down studio lighting plan: a 3 by 4 metre key softbox at 45 degrees front-left, a 2 by 3 metre fill to the right, a narrow strip rim light behind, a curved cyclorama, and the camera on the front axis.">
+            <!-- cyc -->
+            <path class="in" fill="none" d="M110 120 C110 60 250 40 450 40 C650 40 790 60 790 120"/>
+            <text class="elb" x="450" y="28" text-anchor="middle">SEAMLESS CYC · 6.0 × 4.0 m</text>
+
+            <!-- subject -->
+            <rect class="t14" x="340" y="268" width="220" height="94" rx="8"/>
+            <rect class="med" x="340" y="268" width="220" height="94" rx="8" fill="none"/>
+            <text class="elb" x="450" y="320" text-anchor="middle">COUCH 1920 × 820</text>
+            <line class="hid" x1="450" y1="315" x2="450" y2="520"/>
+
+            <!-- key softbox 45 front-left -->
+            <g transform="rotate(-45 205 175)">
+              <rect class="t22" x="130" y="168" width="150" height="16" rx="3"/>
+              <rect class="med" x="130" y="168" width="150" height="16" rx="3" fill="none"/>
+            </g>
+            <line class="edge" x1="232" y1="202" x2="356" y2="282"/>
+            <text class="elb" x="92" y="118">KEY · 3 × 4 m softbox</text>
+            <text class="elb" x="92" y="134">2600 mm · h 2400 · 1.00×</text>
+
+            <!-- fill right -->
+            <rect class="t14" x="716" y="238" width="16" height="150" rx="3"/>
+            <rect class="med" x="716" y="238" width="16" height="150" rx="3" fill="none"/>
+            <line class="edge" x1="712" y1="313" x2="566" y2="313"/>
+            <text class="elb" x="748" y="300">FILL · 2 × 3 m</text>
+            <text class="elb" x="748" y="316">3200 mm · h 1600</text>
+            <text class="elb" x="748" y="332">0.25× · +½ CTO</text>
+
+            <!-- rim strip behind -->
+            <rect class="t22" x="384" y="150" width="132" height="12" rx="3"/>
+            <rect class="med" x="384" y="150" width="132" height="12" rx="3" fill="none"/>
+            <line class="edge" x1="450" y1="166" x2="450" y2="262"/>
+            <text class="elb" x="530" y="152">RIM · 0.6 × 2.4 m strip</text>
+            <text class="elb" x="530" y="168">1400 mm · h 2000 · 0.60×</text>
+
+            <!-- negative fill -->
+            <rect class="in" x="168" y="300" width="10" height="120" fill="none"/>
+            <text class="elb" x="60" y="366">NEG</text>
+            <text class="elb" x="46" y="382">2.0 m flag</text>
+
+            <!-- camera -->
+            <g>
+              <path class="hotf" d="M450 500 l-14 24 h28 z"/>
+              <path class="hot" fill="none" stroke-dasharray="7 5" d="M450 500 L342 372 M450 500 L558 372"/>
+              <text class="elb" x="466" y="524" style="fill:var(--vp-accent);opacity:1">PhysCamera002 · h 620</text>
+            </g>
+
+            <!-- distance dims -->
+            <g>
+              <line class="dim" x1="450" y1="530" x2="620" y2="530"/>
+              <line class="dim" x1="450" y1="368" x2="450" y2="546"/>
+              <line class="dim" x1="616" y1="368" x2="616" y2="546"/>
+              <line class="dim" x1="450" y1="540" x2="616" y2="540"/>
+              <path d="M450 540 l14 -4 v8 z" fill="var(--tech)"/>
+              <path d="M616 540 l-14 -4 v8 z" fill="var(--tech)"/>
+              <rect x="500" y="530" width="70" height="20" fill="var(--vp-bg)"/>
+              <text class="dimt" x="535" y="541" text-anchor="middle" dominant-baseline="middle">3400</text>
+            </g>
+            <text class="elb" x="60" y="556">HDRI · overcast 4k, 0.35× — REFLECTION ONLY, NO DIFFUSE CONTRIBUTION</text>
+          </svg>
+          <figcaption>The rig is built for one thing: a long, unbroken specular roll across the top rail. The key sits at 45° so the roll starts at the crown and dies before the arm; the negative flag on the left keeps the outside back from filling in and losing the silhouette against the cyc.</figcaption>
+        </figure>
+      </div>
+
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Plates</span>
+          <span class="lbl lbl-a">01 – 07 · COUCH</span>
+          <span class="lbl sp">Azimuth measured from the front axis · subject centre at origin</span>
+        </div>
+        <div class="stack" style="gap:1px;background:var(--vp-rule)">
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the hero three-quarter plate: 38 degrees off the front axis to the right.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="198" y2="166"/>
+                <path class="hotf" d="M198 166 l-4 -14 l16 6 z"/>
+                <path class="dim" fill="none" d="M150 155 A 50 50 0 0 0 181 143"/>
+                <text class="dimt" x="186" y="152">38°</text>
+                <text class="elb" x="12" y="203">3400 mm · h 620</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 01</span>
+              <h4>Hero three-quarter</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>50 mm · f/5.6 · 1/125 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 620 mm · 3400 mm · az 38° · tilt −2°</dd>
+                <dt>Focus</dt><dd>near arm welt · DoF 0.9 m</dd>
+                <dt>Frame</dt><dd>4000 × 2500 · subject 78 % width</dd>
+                <dt>Note</dt><dd>Camera at seat height, not standing height</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the front elevation plate: on the front axis at zero degrees.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="150" y2="188"/>
+                <path class="hotf" d="M150 188 l-7 -13 h14 z"/>
+                <text class="dimt" x="160" y="150">0°</text>
+                <text class="elb" x="12" y="203">12000 mm · h 620</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 02</span>
+              <h4>Front elevation</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>200 mm · f/11 · 1/60 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 620 mm · 12000 mm · az 0° · tilt 0°</dd>
+                <dt>Focus</dt><dd>front welt · hyperfocal</dd>
+                <dt>Frame</dt><dd>4000 × 2000 · shift, no tilt</dd>
+                <dt>Note</dt><dd>Long lens to flatten perspective toward orthographic</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the side elevation plate: 90 degrees to the right.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="238" y2="105"/>
+                <path class="hotf" d="M238 105 l-13 -7 v14 z"/>
+                <path class="dim" fill="none" d="M150 155 A 50 50 0 0 0 200 105"/>
+                <text class="dimt" x="196" y="146">90°</text>
+                <text class="elb" x="12" y="203">11000 mm · h 620</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 03</span>
+              <h4>Side elevation</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>200 mm · f/11 · 1/60 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 620 mm · 11000 mm · az 90° · tilt 0°</dd>
+                <dt>Focus</dt><dd>arm outer face</dd>
+                <dt>Frame</dt><dd>2500 × 2500 · square</dd>
+                <dt>Note</dt><dd>Rim light moves to camera-left to keep the rake readable</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the rear detail plate: 150 degrees, behind and to the right.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="189" y2="37"/>
+                <path class="hotf" d="M189 37 l-14 3 l6 -15 z"/>
+                <path class="dim" fill="none" d="M150 155 A 50 50 0 0 0 175 62"/>
+                <text class="dimt" x="182" y="80">150°</text>
+                <text class="elb" x="12" y="203">2600 mm · h 900</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 04</span>
+              <h4>Rear three-quarter · outside back</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>85 mm · f/4 · 1/160 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 900 mm · 2600 mm · az 150° · tilt −6°</dd>
+                <dt>Focus</dt><dd>rail crown at centre span</dd>
+                <dt>Frame</dt><dd>3000 × 2000</dd>
+                <dt>Note</dt><dd>The plate that proves the claim — one skin, no vertical seam</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the material macro plate: on the front axis at 480 millimetres.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <circle class="hot" cx="150" cy="95" r="13" fill="none" stroke-dasharray="4 3"/>
+                <line class="hot" x1="150" y1="141" x2="150" y2="108"/>
+                <path class="hotf" d="M150 141 l-7 13 h14 z" transform="rotate(180 150 147)"/>
+                <text class="elb" x="12" y="203">480 mm · h 690 · 1:2</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 05</span>
+              <h4>Material macro · tuft and welt</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>100 mm macro · f/2.8 · 1/200 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 690 mm · 480 mm · az 0° · 1:2 repro</dd>
+                <dt>Focus</dt><dd>button crown · DoF 11 mm</dd>
+                <dt>Frame</dt><dd>3000 × 3000 · square</dd>
+                <dt>Note</dt><dd>Pore normal must resolve; drop no texture below 1:1</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the lifestyle interior plate: 25 degrees off the front axis at eye level.">
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <rect class="in" x="46" y="40" width="208" height="150" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="183" y2="176"/>
+                <path class="hotf" d="M183 176 l-11 -9 l14 -3 z"/>
+                <path class="dim" fill="none" d="M150 155 A 50 50 0 0 0 171 150"/>
+                <text class="dimt" x="176" y="160">25°</text>
+                <text class="elb" x="12" y="207">4200 mm · h 1500 · set 5.2 × 3.8 m</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 06</span>
+              <h4>Lifestyle · contemporary interior</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>35 mm · f/2.8 · 1/80 · ISO 200</dd>
+                <dt>Camera</dt><dd>h 1500 mm · 4200 mm · az 25° · tilt −3°</dd>
+                <dt>Focus</dt><dd>near arm · background falls to 0.6 m blur</dd>
+                <dt>Set</dt><dd>5.2 × 3.8 m · oak floor · lime plaster wall</dd>
+                <dt>Light</dt><dd>Studio rig off · single 2.4 × 1.4 m window, north, 5600 K</dd>
+                <dt>Note</dt><dd>The one plate where the rig is replaced, not adjusted</dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="plate" style="border:0">
+            <div class="plate-key">
+              <svg class="dwg dgm" style="--fs:9" viewBox="0 0 300 215" role="img" aria-label="Camera plan for the clean studio plate: 20 degrees off the front axis against a seamless cyclorama.">
+                <path class="in" fill="none" d="M40 62 C40 34 90 26 150 26 C210 26 260 34 260 62"/>
+                <rect class="t14" x="105" y="86" width="90" height="38" rx="4"/><rect class="med" x="105" y="86" width="90" height="38" rx="4" fill="none"/>
+                <line class="hid" x1="150" y1="105" x2="150" y2="200"/>
+                <line class="hot" x1="150" y1="105" x2="177" y2="178"/>
+                <path class="hotf" d="M177 178 l-12 -8 l14 -4 z"/>
+                <path class="dim" fill="none" d="M150 155 A 50 50 0 0 0 167 152"/>
+                <text class="dimt" x="172" y="162">20°</text>
+                <text class="elb" x="12" y="203">6000 mm · h 700</text>
+              </svg>
+            </div>
+            <div class="plate-spec">
+              <span class="lbl lbl-a">Plate 07</span>
+              <h4>Clean studio · neutral ground</h4>
+              <dl class="kv">
+                <dt>Lens</dt><dd>85 mm · f/8 · 1/125 · ISO 100</dd>
+                <dt>Camera</dt><dd>h 700 mm · 6000 mm · az 20° · tilt −1°</dd>
+                <dt>Focus</dt><dd>front leg · everything within DoF</dd>
+                <dt>Ground</dt><dd>Cyc at 0.62 linear — one stop under the ABS shell</dd>
+                <dt>Note</dt><dd>Contact shadow kept; no cut-out, no white void</dd>
+              </dl>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="grid2 rv">
+        <div class="card">
+          <span class="lbl">Plates · PARAMETER</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Four sheets, same pipeline</h4>
+          <div class="tw">
+            <table style="min-width:420px">
+              <thead><tr><th>Plate</th><th>Lens</th><th>Camera</th></tr></thead>
+              <tbody>
+                <tr><td class="name">08 · Hero ¾</td><td class="n">85 mm f/8</td><td class="n">h 190 · 700 · az 42°</td></tr>
+                <tr><td class="name">09 · Front, display live</td><td class="n">120 mm f/11</td><td class="n">h 27 · 1400 · az 0°</td></tr>
+                <tr><td class="name">10 · Lid removed, top-down</td><td class="n">100 mm f/11</td><td class="n">h 900 · nadir</td></tr>
+                <tr><td class="name">11 · Macro, knurl and window</td><td class="n">100 mm f/4</td><td class="n">h 27 · 180 · 1:1</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin-top:16px;font-size:14.5px">Plate 09 renders with the display driven — 40&nbsp;nit emissive, exposure held so the STN blue does not clip. Plate 10 is the one that has to sell the layout discipline, so the isolation channel stays visible and unpopulated.</p>
+        </div>
+
+        <div class="card">
+          <span class="lbl">Output</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Settings and pass list</h4>
+          <ul class="speclist">
+            <li><span class="k">Engine</span><span class="v">V-Ray 6 / Corona 11</span></li>
+            <li><span class="k">GI</span><span class="v">Brute force + light cache</span></li>
+            <li><span class="k">Sampling</span><span class="v">noise 0.010, max 96</span></li>
+            <li><span class="k">Resolution</span><span class="v">4000 px long edge</span></li>
+            <li><span class="k">Bit depth</span><span class="v">32-bit linear EXR</span></li>
+            <li><span class="k">Working space</span><span class="v">ACEScg</span></li>
+            <li><span class="k">View transform</span><span class="v">ACES 1.0 sRGB</span></li>
+            <li><span class="k">Exposure</span><span class="v">EV 11.2 · WB 5600 K</span></li>
+            <li><span class="k">Denoise</span><span class="v">post, from AOVs only</span></li>
+            <li><span class="k">Passes</span><span class="v">RGBA · CryptoMatte · Z</span></li>
+            <li><span class="k">&nbsp;</span><span class="v">Reflect · Refract · GI</span></li>
+            <li><span class="k">&nbsp;</span><span class="v">AO · Normal · Velocity</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="s06">
+  <div class="wrap bind">
+    <span class="bind-n">06</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 06</span>
+      <h2>Final Product</h2>
+      <p>Two finished specifications. One is upholstered, weighs about fifty kilos and is sold by its silhouette; the other fits in a hand and is sold by what it refuses to put on its front face. They were made the same way.</p>
+    </div>
+
+    <div class="stack">
+      <div class="vp rv">
+        <div class="vp-bar">
+          <span class="lbl">Range</span>
+          <span class="lbl lbl-a">Both objects at one scale</span>
+          <span class="lbl sp">Common ground line · dimensions in mm</span>
+        </div>
+        <figure>
+          <svg class="dwg dgm" style="--fs:19" viewBox="0 0 1400 430" role="img" aria-label="Both products drawn at the same scale on a shared ground line: the 1920 millimetre sofa beside the 140 millimetre enclosure, a factor of 13.7 apart.">
+            <line class="in" x1="40" y1="340" x2="1360" y2="340"/>
+
+            <g transform="translate(4,-20) scale(0.36)">
+              <path class="t14" d="M240 740 L240 405 C240 384 258 372 280 372 L316 372 C356 372 366 322 374 266 C382 218 406 200 448 200 C800 184 1600 184 1952 200 C1994 200 2018 218 2026 266 C2034 322 2044 372 2084 372 L2120 372 C2142 372 2160 384 2160 405 L2160 740 Z"/>
+              <path class="out" d="M240 740 L240 405 C240 384 258 372 280 372 L316 372 C356 372 366 322 374 266 C382 218 406 200 448 200 C800 184 1600 184 1952 200 C1994 200 2018 218 2026 266 C2034 322 2044 372 2084 372 L2120 372 C2142 372 2160 384 2160 405 L2160 740 Z"/>
+              <path class="out" d="M314 740 L277 1000 L295 1000 L346 740 Z"/>
+              <path class="out" d="M2086 740 L2123 1000 L2105 1000 L2054 740 Z"/>
+              <line class="med" x1="240" y1="700" x2="2160" y2="700"/>
+              <line class="med" x1="330" y1="372" x2="330" y2="700"/>
+              <line class="med" x1="2070" y1="372" x2="2070" y2="700"/>
+            </g>
+
+            <g>
+              <rect class="t14" x="900" y="320.6" width="50.4" height="19.4" rx="2.9"/>
+              <rect class="out" x="900" y="320.6" width="50.4" height="19.4" rx="2.9" fill="none"/>
+              <line class="med" x1="901" y1="323" x2="950" y2="323"/>
+              <rect class="t22" x="921" y="327" width="26" height="9" rx="1"/>
+              <circle class="med" cx="908" cy="331" r="2.7" fill="none"/>
+            </g>
+
+            <g>
+              <line class="dim" x1="90" y1="348" x2="90" y2="392"/>
+              <line class="dim" x1="781" y1="348" x2="781" y2="392"/>
+              <line class="dim" x1="90" y1="382" x2="781" y2="382"/>
+              <path d="M90 382 l14 -4 v8 z" fill="var(--tech)"/>
+              <path d="M781 382 l-14 -4 v8 z" fill="var(--tech)"/>
+              <rect x="400" y="372" width="72" height="20" fill="var(--vp-bg)"/>
+              <text class="dimt" x="436" y="383" text-anchor="middle" dominant-baseline="middle">1920</text>
+            </g>
+            <g>
+              <line class="dim" x1="900" y1="348" x2="900" y2="392"/>
+              <line class="dim" x1="950" y1="348" x2="950" y2="392"/>
+              <line class="dim" x1="880" y1="382" x2="900" y2="382"/>
+              <line class="dim" x1="950" y1="382" x2="970" y2="382"/>
+              <path d="M900 382 l-14 -4 v8 z" fill="var(--tech)"/>
+              <path d="M950 382 l14 -4 v8 z" fill="var(--tech)"/>
+              <text class="dimt" x="982" y="383" dominant-baseline="middle">140</text>
+            </g>
+
+            <text class="elb" x="90" y="60">COUCH</text>
+            <text class="elb" x="900" y="290">PARAMETER</text>
+            <text class="elb" x="1120" y="62" style="fill:var(--vp-accent);opacity:1;font-size:30px">13.7 ×</text>
+            <line class="hot" x1="1118" y1="70" x2="1118" y2="330"/>
+            <text class="elb" x="1136" y="88">the ratio between the two</text>
+            <text class="elb" x="1136" y="106">objects in this dossier</text>
+          </svg>
+          <figcaption>Same units, same tolerancing habits, same audit before release. The method does not care about the factor of thirteen between them — which is the argument this document exists to make.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid2 rv">
+        <div class="card">
+          <span class="lbl lbl-a">Project 01</span>
+          <h3>COUCH — specification</h3>
+          <ul class="speclist" style="margin-top:14px">
+            <li><span class="k">Overall W × D × H</span><span class="v">1920 × 820 × 800</span></li>
+            <li><span class="k">Seat height / depth</span><span class="v">430 / 580</span></li>
+            <li><span class="k">Arm height</span><span class="v">620</span></li>
+            <li><span class="k">Inner span between arms</span><span class="v">1740</span></li>
+            <li><span class="k">Floor footprint</span><span class="v">1820 × 704</span></li>
+            <li><span class="k">Back rake</span><span class="v">14°</span></li>
+            <li><span class="k">Leg splay, both axes</span><span class="v">8°</span></li>
+            <li><span class="k">Frame</span><span class="v">beech + birch ply</span></li>
+            <li><span class="k">Cover</span><span class="v">full-aniline, 4.6 m² net</span></li>
+            <li><span class="k">Buttons</span><span class="v">11 at 150 pitch</span></li>
+            <li><span class="k">Mass, estimated</span><span class="v">≈ 48 kg</span></li>
+            <li><span class="k">Packed volume</span><span class="v">2020 × 900 × 880</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <span class="lbl lbl-a">Project 02</span>
+          <h3>PARAMETER — specification</h3>
+          <ul class="speclist" style="margin-top:14px">
+            <li><span class="k">Overall W × D × H</span><span class="v">140 × 126 × 54</span></li>
+            <li><span class="k">Internal cavity</span><span class="v">135 × 121 × 44</span></li>
+            <li><span class="k">Wall / lid</span><span class="v">2.5 / 6.0</span></li>
+            <li><span class="k">Carrier board</span><span class="v">80 × 120 FR-4</span></li>
+            <li><span class="k">Display</span><span class="v">16 × 2 STN, blue</span></li>
+            <li><span class="k">Display aperture</span><span class="v">71.5 × 25.5</span></li>
+            <li><span class="k">Input</span><span class="v">230 V AC 50 Hz</span></li>
+            <li><span class="k">Secondary</span><span class="v">12 V 600 mA, 6 taps</span></li>
+            <li><span class="k">Logic supply</span><span class="v">5 V 700 mA</span></li>
+            <li><span class="k">Isolation</span><span class="v">basic, ≥ 6.4 creepage</span></li>
+            <li><span class="k">Ingress</span><span class="v">IP54</span></li>
+            <li><span class="k">Mass, estimated</span><span class="v">≈ 480 g</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card rv">
+        <span class="lbl">Bill of materials</span>
+        <h3>PARAMETER · as assembled</h3>
+        <div class="tw" style="margin-top:18px">
+          <table>
+            <thead><tr><th>Item</th><th>Description</th><th>Qty</th><th>Source name in assembly</th></tr></thead>
+            <tbody>
+              <tr><td class="n">01</td><td class="name">Base shell — ABS RAL 9001, 2.5 wall</td><td class="n">1</td><td>Component2:1</td></tr>
+              <tr><td class="n">02</td><td class="name">Lid — ABS RAL 9001, 6.0</td><td class="n">1</td><td>Component3:1</td></tr>
+              <tr><td class="n">03</td><td class="name">Cord seal — VMQ Ø2, 470 long</td><td class="n">1</td><td>—</td></tr>
+              <tr><td class="n">04</td><td class="name">Screw — M3 × 10 CSK, A2</td><td class="n">4</td><td>—</td></tr>
+              <tr><td class="n">05</td><td class="name">Standoff — M3 × 5, brass</td><td class="n">4</td><td>—</td></tr>
+              <tr><td class="n">06</td><td class="name">Carrier board — FR-4 80 × 120</td><td class="n">1</td><td>8x12cm:1</td></tr>
+              <tr><td class="n">07</td><td class="name">Energy meter — shunt + CT</td><td class="n">1</td><td>PZEM-004T:1</td></tr>
+              <tr><td class="n">08</td><td class="name">MCU module — ESP32-WROOM-32</td><td class="n">1</td><td>esp32_devkit_headers:1</td></tr>
+              <tr><td class="n">09</td><td class="name">Transformer — 12 V 600 mA</td><td class="n">1</td><td>B@0=AD_@_0B_@ 12v 600m…</td></tr>
+              <tr><td class="n">10</td><td class="name">Logic supply — AC-DC 5 V 700 mA</td><td class="n">1</td><td>AC-DC 5V 700mA:1</td></tr>
+              <tr><td class="n">11</td><td class="name">Voltage sensor — 0–25 V divider</td><td class="n">1</td><td>Arduino voltage sensor v…</td></tr>
+              <tr><td class="n">12</td><td class="name">Display — 16 × 2 STN, blue</td><td class="n">1</td><td>lcd 16_2 v3 (1):1</td></tr>
+              <tr><td class="n">13</td><td class="name">Rotary switch — 6 position</td><td class="n">1</td><td>6 Position Rotary Switch:1</td></tr>
+              <tr><td class="n">14</td><td class="name">Knob — Ø15 knurled, D-shaft</td><td class="n">1</td><td>—</td></tr>
+              <tr><td class="n">15</td><td class="name">Window — PMMA 1.5 clear</td><td class="n">1</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:16px;font-size:14px;color:var(--ink-3)">Right-hand column carries the component names exactly as they appear in the Fusion browser, so the BOM and the assembly tree can be reconciled without guessing.</p>
+      </div>
+
+      <div class="grid2 rv">
+        <div class="card">
+          <span class="lbl">Handover</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Ready to release</h4>
+          <ul class="ticks">
+            <li>Mesh audit passed — 28 closed quad shells, no open borders</li>
+            <li>Isolation boundary held in both plan and schematic</li>
+            <li>Every material specified for workshop and renderer, values agreeing</li>
+            <li>Seven camera sheets plus four, fully parameterised</li>
+            <li>BOM reconciled against the assembly tree by name</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="lbl">Handover</span>
+          <h4 style="margin:9px 0 14px;font-size:17px">Open before manufacture</h4>
+          <ul class="ticks">
+            <li>Replace reconstructed dimensions with the parametric values from source</li>
+            <li>Confirm the subdivision iteration split — 1,033,680 is not 4³-divisible</li>
+            <li>Measure creepage on the built board; 6.4 mm is specified, not verified</li>
+            <li>Foam densities are proposed and need a sit test before sign-off</li>
+            <li>Masses are estimates from volume and density, not weighed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap bind">
+    <div class="grid2">
+      <div>
+        <span class="lbl lbl-a">Colophon</span>
+        <h3 style="font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 120;font-weight:300;font-size:clamp(26px,3.6vw,40px);line-height:1.05;letter-spacing:-.025em;margin:14px 0 18px">Everything here was drawn.</h3>
+        <p style="color:var(--ink-2);font-size:15.5px;max-width:58ch">No renderer was run and no photograph was used. The drawings are vector geometry reconstructed from the 3ds&nbsp;Max viewports and the Fusion&nbsp;360 assembly, and they are dimensioned so the next person can either build from them or render from them. Stage 05 is the render brief that was never executed — hand it to V-Ray or Corona with <span class="mono">PhysCamera002</span> and the plates come out matched to the specification.</p>
+      </div>
+      <div>
+        <span class="lbl">Source</span>
+        <ul class="speclist" style="margin-top:14px">
+          <li><span class="k">Sofa scene</span><span class="v">3ds Max · COUCH</span></li>
+          <li><span class="k">Enclosure assembly</span><span class="v">Fusion 360</span></li>
+          <li><span class="k">Camera</span><span class="v">PhysCamera002</span></li>
+          <li><span class="k">Units</span><span class="v">1 unit = 1 mm</span></li>
+          <li><span class="k">Dimension status</span><span class="v">reconstructed</span></li>
+          <li><span class="k">Document</span><span class="v">Rev. C · 2026</span></li>
+        </ul>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px">
+          <span class="pill pill-a">Drawn, not rendered</span>
+          <span class="pill">Dimensions reconstructed</span>
+          <span class="pill">Masses estimated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+    items.forEach(function(el){ io.observe(el); });
+  }
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav-links a'));
+  var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+  function spy(){
+    var y = window.scrollY + 140, best = -1;
+    sections.forEach(function(s, i){ if (s && s.offsetTop <= y) best = i; });
+    links.forEach(function(a, i){ a.classList.toggle('on', i === best); });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if (!ticking){ ticking = true; requestAnimationFrame(function(){ spy(); ticking = false; }); }
+  }, { passive: true });
+  spy();
+})();
+</script>
+</body>
+</html>
