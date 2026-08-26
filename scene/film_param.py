@@ -103,14 +103,25 @@ def set_key_interp(kind="BEZIER"):
         pass
 
 
-def key_cam(ob, frame, loc, target, focus=None, interp="BEZIER"):
+def key_cam(ob, frame, loc, target, focus=None, interp="BEZIER", prev_e=None):
+    """prev_e keeps the Euler continuous across a 360 orbit. to_track_quat().to_euler()
+    returns Z wrapped into +/-180, so one segment of a full revolution flips sign and
+    linear interpolation sweeps the camera the long way round, off the subject."""
     set_key_interp(interp)
     ob.location = Vector(loc)
-    ob.rotation_euler = (Vector(target) - ob.location).to_track_quat("-Z", "Y").to_euler()
+    e = (Vector(target) - ob.location).to_track_quat("-Z", "Y").to_euler()
+    if prev_e is not None:
+        for i in range(3):
+            while e[i] - prev_e[i] > math.pi:
+                e[i] -= 2 * math.pi
+            while e[i] - prev_e[i] < -math.pi:
+                e[i] += 2 * math.pi
+    ob.rotation_euler = e
     ob.data.dof.focus_distance = (Vector(focus or target) - Vector(loc)).length
     ob.keyframe_insert("location", frame=frame)
     ob.keyframe_insert("rotation_euler", frame=frame)
     ob.data.keyframe_insert("dof.focus_distance", frame=frame)
+    return e.copy()
 
 
 def orbit_pos(deg, dist, h):
@@ -149,10 +160,11 @@ def setup():
     # 03 ORBIT - continuous 360 leaving from the hero angle
     c3 = cam("cam_orbit", 70.0, 9.0)
     steps = 12
+    prev = None
     for i in range(steps + 1):
         fr = CUT2 + round(i * (f_orb - 1) / steps)
-        key_cam(c3, fr, orbit_pos(41.0 + 360.0 * i / steps, 0.438, 0.186), T,
-                focus=T, interp="LINEAR")
+        prev = key_cam(c3, fr, orbit_pos(41.0 + 360.0 * i / steps, 0.438, 0.186), T,
+                       focus=T, interp="LINEAR", prev_e=prev)
 
     # 04 TECHNICAL DETAIL - knurled control across to the display window
     c4 = cam("cam_detail", 100.0, 5.6)

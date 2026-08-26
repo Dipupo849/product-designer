@@ -88,14 +88,25 @@ def set_key_interp(kind="BEZIER"):
         pass
 
 
-def key_cam(ob, frame, loc, target, focus=None, interp="BEZIER"):
+def key_cam(ob, frame, loc, target, focus=None, interp="BEZIER", prev_e=None):
+    """prev_e keeps the Euler continuous across a 360 orbit. to_track_quat().to_euler()
+    returns Z wrapped into +/-180, so one segment of a full revolution flips sign and
+    linear interpolation sweeps the camera the long way round, off the subject."""
     set_key_interp(interp)
     ob.location = Vector(loc)
-    aim(ob, target)
+    e = (Vector(target) - ob.location).to_track_quat("-Z", "Y").to_euler()
+    if prev_e is not None:
+        for i in range(3):
+            while e[i] - prev_e[i] > math.pi:
+                e[i] -= 2 * math.pi
+            while e[i] - prev_e[i] < -math.pi:
+                e[i] += 2 * math.pi
+    ob.rotation_euler = e
     ob.data.dof.focus_distance = (Vector(focus or target) - Vector(loc)).length
     ob.keyframe_insert("location", frame=frame)
     ob.keyframe_insert("rotation_euler", frame=frame)
     ob.data.keyframe_insert("dof.focus_distance", frame=frame)
+    return e.copy()
 
 
 def orbit_pos(deg, dist, h, pivot=(0.0, 0.0, 0.0)):
@@ -112,18 +123,18 @@ def setup():
 
     # 01 REVEAL - low, wide, slow push while the rig comes up out of near-black
     c1 = cam("cam_reveal", 58.0, 5.6)
-    key_cam(c1, 1, orbit_pos(34, 7.90, 0.26), (0, 0, 0.40), focus=FOCUS_NEAR)
-    key_cam(c1, CUT1 - 1, orbit_pos(27, 6.40, 0.62), (0, 0, 0.45), focus=FOCUS_NEAR)
+    key_cam(c1, 1, orbit_pos(34, 6.15, 0.28), (0, 0, 0.40), focus=FOCUS_NEAR)
+    key_cam(c1, CUT1 - 1, orbit_pos(26, 5.45, 0.64), (0, 0, 0.45), focus=FOCUS_NEAR)
 
     kl = bpy.data.objects["KEY"]
-    kl.data.energy = 1.5;   kl.data.keyframe_insert("energy", frame=1)
-    kl.data.energy = 22.0;  kl.data.keyframe_insert("energy", frame=int(1 + f_rev * 0.32))
+    kl.data.energy = 6.0;   kl.data.keyframe_insert("energy", frame=1)
+    kl.data.energy = 45.0;  kl.data.keyframe_insert("energy", frame=int(1 + f_rev * 0.32))
     kl.data.energy = 132.0; kl.data.keyframe_insert("energy", frame=CUT1 - 1)
     rl = bpy.data.objects["RIM"]
-    rl.data.energy = 4.0;   rl.data.keyframe_insert("energy", frame=1)
+    rl.data.energy = 42.0;  rl.data.keyframe_insert("energy", frame=1)
     rl.data.energy = 52.0;  rl.data.keyframe_insert("energy", frame=int(1 + f_rev * 0.58))
     fl = bpy.data.objects["FILL"]
-    fl.data.energy = 0.0;   fl.data.keyframe_insert("energy", frame=1)
+    fl.data.energy = 0.8;   fl.data.keyframe_insert("energy", frame=1)
     fl.data.energy = 24.0;  fl.data.keyframe_insert("energy", frame=CUT1 - 1)
 
     # 02 HERO THREE-QUARTER - catalogue composition, slow drift in
@@ -134,10 +145,11 @@ def setup():
     # 03 ORBIT - one continuous 360, constant speed, leaving from the hero angle
     c3 = cam("cam_orbit", 70.0, 6.3)
     steps = 12
+    prev = None
     for i in range(steps + 1):
         fr = CUT2 + round(i * (f_orb - 1) / steps)
-        key_cam(c3, fr, orbit_pos(21.0 + 360.0 * i / steps, 5.80, 0.86),
-                (0, 0, 0.46), focus=(0, 0, 0.46), interp="LINEAR")
+        prev = key_cam(c3, fr, orbit_pos(21.0 + 360.0 * i / steps, 5.80, 0.86),
+                       (0, 0, 0.46), focus=(0, 0, 0.46), interp="LINEAR", prev_e=prev)
 
     # 04 MATERIAL DETAIL - lateral slide along the tufting row
     c4 = cam("cam_material", 90.0, 8.0)
@@ -145,6 +157,19 @@ def setup():
     t_b = (0.180, 0.268, 0.700)
     key_cam(c4, CUT3, (t_a[0] + 0.205, -0.115, 0.812), t_a, focus=t_a)
     key_cam(c4, CUT4 - 1, (t_b[0] + 0.205, -0.115, 0.812), t_b, focus=t_b)
+
+    # The macro sits ~0.45 m from a key rigged for a 2 m body, so shot 04 came out
+    # about two stops hot and the black hide read mid grey against the orbit either
+    # side of it. Step the rig down for this shot only; CONSTANT keys make it a hard
+    # cut at the edit points rather than a visible ramp.
+    for lname, hi, lo in (("KEY", 132.0, 33.0), ("FILL", 24.0, 6.0), ("RIM", 52.0, 13.0)):
+        ld = bpy.data.objects[lname].data
+        set_key_interp("CONSTANT")
+        ld.energy = hi; ld.keyframe_insert("energy", frame=CUT3 - 1)
+        ld.energy = lo; ld.keyframe_insert("energy", frame=CUT3)
+        ld.energy = lo; ld.keyframe_insert("energy", frame=CUT4 - 1)
+        ld.energy = hi; ld.keyframe_insert("energy", frame=CUT4)
+    set_key_interp("BEZIER")
 
     # 05 CONSTRUCTION DETAIL - upholstery meeting frame and leg
     c5 = cam("cam_construction", 80.0, 6.3)

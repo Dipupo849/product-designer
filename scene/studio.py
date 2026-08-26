@@ -163,6 +163,30 @@ def mat_oak_floor(name="oak_floor"):
     return m
 
 
+def mat_wool_rug(name="wool_rug"):
+    """Flat grey read as a card rectangle; wool needs tonal break-up and sheen."""
+    m, nt, bsdf, geo = _fresh(name)
+    N, L = nt.nodes, nt.links
+    nz = N.new("ShaderNodeTexNoise"); nz.location = (-760, 0)
+    nz.inputs["Scale"].default_value = 42.0
+    nz.inputs["Detail"].default_value = 8.0
+    L.new(geo.outputs["Position"], nz.inputs["Vector"])
+    r = N.new("ShaderNodeValToRGB"); r.location = (-500, 0)
+    r.color_ramp.elements[0].color = (0.196, 0.184, 0.166, 1)
+    r.color_ramp.elements[1].color = (0.310, 0.293, 0.266, 1)
+    L.new(nz.outputs["Fac"], r.inputs["Fac"])
+    L.new(r.outputs["Color"], bsdf.inputs["Base Color"])
+    b = N.new("ShaderNodeBump"); b.location = (-280, -220)
+    b.inputs["Strength"].default_value = 0.35
+    b.inputs["Distance"].default_value = 0.004
+    L.new(nz.outputs["Fac"], b.inputs["Height"])
+    L.new(b.outputs["Normal"], bsdf.inputs["Normal"])
+    bsdf.inputs["Roughness"].default_value = 0.95
+    set_in(bsdf, ["Sheen Weight", "Sheen"], 0.45)
+    set_in(bsdf, ["Sheen Roughness"], 0.5)
+    return m
+
+
 def assign(ob, mat):
     ob.data.materials.clear()
     ob.data.materials.append(mat)

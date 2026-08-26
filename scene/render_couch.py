@@ -47,7 +47,7 @@ def add_rug():
     r.location = (0.05, -0.62, 0.006)
     bpy.ops.object.transform_apply(scale=True)
     b = r.modifiers.new("bevel", "BEVEL"); b.width, b.segments = 0.004, 2
-    assign(r, mat_simple("wool_rug", (0.255, 0.238, 0.212, 1), rough=0.92))
+    assign(r, mat_wool_rug())
     return r
 
 
@@ -207,9 +207,9 @@ def shot_lifestyle():
     build_sofa()
     build_interior()
     add_rug(); add_side_table(); add_wall_oval()
-    camera("cam", distance=4.15, height=1.52, azimuth_deg=25.0,
-           target=(-0.05, 0.05, 0.80), lens=28.0, fstop=4.5,
-           focus_point=(0.2, -0.2, 0.55))
+    camera("cam", distance=3.45, height=1.28, azimuth_deg=31.0,
+           target=(-0.02, 0.04, 0.60), lens=32.0, fstop=4.0,
+           focus_point=(0.25, -0.22, 0.52))
     render(os.path.join(OUT, "couch_lifestyle.png"), RES, INT_SAMPLES, exposure=EV)
 
 

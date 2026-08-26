@@ -132,7 +132,7 @@ def shot_rear():
 def shot_top():
     build(lid=False, board=True)
     backdrop(); rig_small(key=20.0, fill=5.4, rim=3.8)
-    cam_at((0.0, -0.002, 0.560), (0, 0, 0.02), lens=100.0, fstop=11.0)
+    cam_at((0.0, -0.003, 0.760), (0, 0, 0.02), lens=100.0, fstop=11.0)
     render(os.path.join(OUT, "param_top.png"), RES, SAMPLES, exposure=EV)
 
 
