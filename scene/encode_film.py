@@ -29,7 +29,9 @@ if missing:
 sc = bpy.context.scene
 sc.sequence_editor_create()
 se = sc.sequence_editor
-strips = getattr(se, "strips", None) or se.sequences   # renamed in 4.4
+# renamed sequences -> strips in 4.4. Test for the attribute, not its truthiness:
+# a freshly created editor has an EMPTY collection, which is falsy.
+strips = se.strips if hasattr(se, "strips") else se.sequences
 
 img = bpy.data.images.load(os.path.join(SEQ, files[0]))
 W, H = img.size
@@ -52,6 +54,9 @@ sc.render.resolution_percentage = 100
 sc.view_settings.view_transform = "Standard"     # frames are already display-referred
 sc.view_settings.look = "None"
 sc.view_settings.exposure = 0.0
+# Blender 5 gates video output behind media_type; FFMPEG is not in the IMAGE enum
+if hasattr(sc.render.image_settings, "media_type"):
+    sc.render.image_settings.media_type = "VIDEO"
 sc.render.image_settings.file_format = "FFMPEG"
 ff = sc.render.ffmpeg
 ff.format = "MPEG4"
