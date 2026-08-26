@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="A six-stage product design dossier: a subdivision-modelled leather sofa (3ds Max) and a mains-metering instrument enclosure (Fusion 360), taken from concept to specified product with dimensioned drawings, material data and a full render brief.">
+<meta name="description" content="A six-stage product design dossier: a subdivision-modelled leather sofa (3ds Max) and a mains-metering instrument enclosure (Fusion 360), taken from concept to photorealistic visualization. All plates path-traced in Blender Cycles.">
 <style>
-/* minimal reset — the hosted Artifact runtime supplies one; a standalone file needs its own */
+/* minimal reset - the hosted Artifact runtime supplies one; a standalone file needs its own */
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0}
 ul,ol,dl,dd,figure,blockquote{margin:0;padding:0}
@@ -327,9 +327,153 @@ html{scroll-behavior:smooth}
   .bind::before{display:none}
   .bind-n{position:static;display:block;margin-bottom:8px;font-size:34px}
 }
+
+/* ============================================================
+   Stage 05 / 06 : render-led layout
+   ============================================================ */
+.shot{margin:0;display:flex;flex-direction:column;background:var(--paper);border:1px solid var(--rule)}
+.shot-img{display:block;width:100%;height:auto;background:var(--paper-2)}
+.shot-cap{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+  padding:13px 16px 15px;border-top:1px solid var(--rule);
+}
+.shot-id{
+  font:500 10.5px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent-ink);white-space:nowrap;
+}
+.shot-desc{font-size:14.5px;font-weight:600;letter-spacing:-.008em;flex:1 1 auto;min-width:0}
+.shot-tech{
+  font:400 11.5px/1.5 "IBM Plex Mono",monospace;color:var(--ink-3);
+  flex:1 1 100%;font-variant-numeric:tabular-nums;
+}
+.shot-lead .shot-desc{font-size:17px}
+.shot-lead .shot-cap{padding:16px 20px 18px}
+
+.shotgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:clamp(16px,2.2vw,26px)}
+@media (max-width:640px){.shotgrid{grid-template-columns:1fr}}
+
+/* ---------------- before / after ---------------- */
+.ba{background:var(--paper);border:1px solid var(--rule);padding:clamp(20px,2.6vw,30px)}
+.ba-head h3{font-size:19px;font-weight:600;letter-spacing:-.012em;margin:9px 0 10px}
+.ba-head p{color:var(--ink-2);font-size:15px;max-width:70ch;margin-bottom:20px}
+.ba-stage{position:relative;overflow:hidden;--rev:50%;border:1px solid var(--rule);touch-action:pan-y}
+.ba-base img,.ba-img{display:block;width:100%;height:auto}
+.ba-clip{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--rev)) 0 0)}
+.ba-clip img{width:100%;height:100%;object-fit:cover}
+.ba-range{
+  position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;
+  cursor:col-resize;-webkit-appearance:none;appearance:none;background:transparent;z-index:3;
+}
+.ba-divider{
+  position:absolute;top:0;bottom:0;left:var(--rev);width:2px;margin-left:-1px;
+  background:var(--accent);pointer-events:none;z-index:2;
+}
+.ba-divider::after{
+  content:"";position:absolute;top:50%;left:50%;width:34px;height:34px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 0 3px rgba(255,255,255,.55),0 2px 10px rgba(0,0,0,.35);
+}
+.ba-range:focus-visible + .ba-divider::after{box-shadow:0 0 0 4px var(--paper),0 0 0 7px var(--accent)}
+.ba-tag{
+  position:absolute;bottom:12px;z-index:2;
+  font:500 10px/1 "IBM Plex Mono",monospace;letter-spacing:.13em;text-transform:uppercase;
+  padding:6px 9px;background:rgba(12,13,15,.72);color:#F2F1ED;border-radius:1px;
+  backdrop-filter:blur(4px);
+}
+.ba-tag-l{left:12px}
+.ba-tag-r{right:12px}
+.ba-foot{margin-top:14px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------------- technical drawer ---------------- */
+.tech{border:1px solid var(--rule);background:var(--paper-2)}
+.tech > summary{
+  cursor:pointer;list-style:none;padding:clamp(16px,2vw,22px) clamp(18px,2.4vw,26px);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;
+}
+.tech > summary::-webkit-details-marker{display:none}
+.tech > summary::after{
+  content:"";margin-left:auto;width:9px;height:9px;flex:none;align-self:center;
+  border-right:1.6px solid var(--ink-3);border-bottom:1.6px solid var(--ink-3);
+  transform:rotate(45deg);transition:transform .22s ease;
+}
+.tech[open] > summary::after{transform:rotate(-135deg)}
+.tech > summary:hover{background:var(--rule-2)}
+.tech-sum{font-size:14px;color:var(--ink-2)}
+.tech-body{padding:0 clamp(18px,2.4vw,26px) clamp(22px,3vw,32px);
+  display:flex;flex-direction:column;gap:clamp(20px,3vw,34px)}
+.tech-lead{font-size:15px;color:var(--ink-2);max-width:72ch;
+  padding-top:6px;border-top:1px solid var(--rule);margin-bottom:4px}
+
+/* ---------------- motion ---------------- */
+.motion{background:var(--paper);border:1px solid var(--rule);padding:clamp(20px,2.6vw,30px);
+  display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(20px,3vw,32px)}
+.motion-head{grid-column:1/-1}
+.motion-head h3{font-size:19px;font-weight:600;letter-spacing:-.012em;margin:9px 0 0}
+.motion-frame{
+  position:relative;aspect-ratio:16/9;border:1px dashed var(--rule);background:var(--paper-2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:22px;
+}
+.motion-mark{color:var(--ink-3)}
+.motion-note{font-size:13px;line-height:1.55;color:var(--ink-3);text-align:center;max-width:44ch}
+.motion-spec p{font-size:14px;color:var(--ink-2);margin-top:14px}
+@media (max-width:760px){.motion{grid-template-columns:1fr}}
+
+/* ---------------- progression ---------------- */
+.prog-wrap{background:var(--paper);border:1px solid var(--rule);padding:clamp(20px,2.6vw,30px)}
+.prog-title{font-size:19px;font-weight:600;letter-spacing:-.012em;margin:9px 0 22px}
+.prog{list-style:none;margin:0;padding:0;display:grid;gap:clamp(12px,1.6vw,20px);
+  grid-template-columns:repeat(5,minmax(0,1fr))}
+.prog-step{display:flex;flex-direction:column;gap:8px;position:relative}
+.prog-step + .prog-step::before{
+  content:"";position:absolute;left:calc(-1 * clamp(12px,1.6vw,20px)/2 - 3px);top:34%;
+  width:6px;height:6px;border-right:1.4px solid var(--accent);border-top:1.4px solid var(--accent);
+  transform:rotate(45deg);
+}
+.prog-n{font-size:10.5px;letter-spacing:.14em;color:var(--accent-ink)}
+.prog-img,.prog-svg{border:1px solid var(--rule);background:var(--paper-2);overflow:hidden;
+  aspect-ratio:16/10;display:flex;align-items:center;justify-content:center}
+.prog-img img{width:100%;height:100%;object-fit:cover;display:block}
+.prog-svg svg{width:78%;height:auto;color:var(--ink-3)}
+.prog-step h4{font-size:13.5px;font-weight:600;margin:2px 0 0;line-height:1.3}
+.prog-step p{font-size:12px;line-height:1.45;color:var(--ink-3)}
+@media (max-width:900px){
+  .prog{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prog-step + .prog-step::before{display:none}
+}
+@media (max-width:460px){.prog{grid-template-columns:1fr}}
+
+/* ---------------- product films ---------------- */
+.motion-wrap{background:var(--paper);border:1px solid var(--rule);padding:clamp(20px,2.6vw,30px)}
+.film-lead{font-size:15px;color:var(--ink-2);max-width:74ch;margin-bottom:22px}
+.filmgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:clamp(16px,2.2vw,26px)}
+.film{margin:0;border:1px solid var(--rule);background:var(--paper-2);display:flex;flex-direction:column}
+.film-v{display:block;width:100%;height:auto;background:#111;aspect-ratio:854/480}
+.film-cap{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;padding:13px 16px 15px;border-top:1px solid var(--rule)}
+.film-cap .shot-desc{font-weight:400;font-size:13.5px;color:var(--ink-2);flex:1 1 100%}
+@media (max-width:640px){.filmgrid{grid-template-columns:1fr}}
+
+/* ---------------- stage 06 : product film ---------------- */
+.film-stage{position:relative;background:#0d0e10;border-bottom:1px solid var(--rule)}
+.film-v{display:block;width:100%;height:auto;aspect-ratio:854/480;background:#0d0e10}
+.film-cap{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:15px 18px 8px}
+.film-shots{list-style:none;margin:10px 0 0;padding:0;flex:1 1 100%;
+  border-top:1px solid var(--rule-2)}
+.fs-row{display:grid;grid-template-columns:52px minmax(0,auto) minmax(0,1fr);
+  gap:4px 14px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--rule-2)}
+.fs-row:last-child{border-bottom:0}
+.fs-t{font-size:11.5px;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.fs-n{font-size:13px;font-weight:600;white-space:nowrap}
+.fs-d{font-size:12.5px;color:var(--ink-3);line-height:1.45}
+@media (max-width:520px){
+  .fs-row{grid-template-columns:48px minmax(0,1fr)}
+  .fs-d{grid-column:2}
+}
+
 </style>
 </head>
 <body>
+
 <nav class="nav">
   <div class="wrap nav-in">
     <span class="nav-mark">STUDIO DOSSIER</span>
@@ -339,7 +483,8 @@ html{scroll-behavior:smooth}
       <a href="#s03">03 MESH</a>
       <a href="#s04">04 MATERIALS</a>
       <a href="#s05">05 VISUALIZATION</a>
-      <a href="#s06">06 PRODUCT</a>
+      <a href="#s06">06 FILM</a>
+      <a href="#s07">07 PRODUCT</a>
     </div>
   </div>
 </nav>
@@ -348,7 +493,7 @@ html{scroll-behavior:smooth}
   <div class="cover-eyebrow">
     <span class="lbl lbl-a">Product &amp; Furniture Design</span>
     <span class="lbl">Two Objects · Six Stages</span>
-    <span class="lbl">Rev. C · 2026</span>
+    <span class="lbl">Rev. D · 2026</span>
   </div>
   <h1>Cage to<br><em>Catalogue</em></h1>
   <p class="cover-lede">Two working files — a subdivision-modelled leather sofa in 3ds&nbsp;Max and a mains-metering instrument enclosure in Fusion&nbsp;360 — carried from concept through to a finished presentation. Every view in this document is reconstructed from the source geometry. Nothing has been redesigned.</p>
@@ -368,7 +513,7 @@ html{scroll-behavior:smooth}
     </div>
     <div class="fact">
       <dt class="lbl">Process</dt>
-      <dd><b>06</b>stages, concept to product<br>7 specified render plates</dd>
+      <dd><b>06</b>stages, concept to product<br>16 path-traced plates</dd>
     </div>
   </dl>
 </header>
@@ -506,10 +651,11 @@ html{scroll-behavior:smooth}
 <div class="wrap" style="margin-top:clamp(20px,3vw,34px)">
   <div class="note rv">
     <span class="lbl lbl-a">Scope of this document</span>
-    <h3>Drawn, not rendered.</h3>
-    <p>No ray tracing was run for this dossier and none of the plates are photographs. Every view here is hand-authored vector geometry, reconstructed from the source files and dimensioned against them — which is why the drawings can carry tolerances, section cuts and callouts that a render cannot.</p>
-    <p>Where a photoreal frame belongs, <strong>stage 05 supplies the full render specification instead</strong>: camera body and lens, aperture, shutter, sensor height, focus target, light positions and sizes, HDRI and exposure, sampling settings and pass list — written to execute against <span class="mono">PhysCamera002</span>, the camera already in the scene. Hand that stage to V-Ray or Corona and the plates come out matched.</p>
-    <p>Dimensions are marked <strong>reconstructed</strong> throughout: they are proportionally derived from the reference views and internally consistent, not measured off the original parametric model. Substitute the real parameter values before releasing anything for manufacture.</p>
+    <h3>What every image here actually is.</h3>
+    <p><strong>The plates in stage 05 and 06 are real renders.</strong> They were path-traced in Blender Cycles — physically based materials, global illumination, real depth of field, real contact shadows. They are not photographs, and no part of this page is an AI-generated image.</p>
+    <p><strong>The geometry behind them is a reconstruction.</strong> It was rebuilt from the 3ds&nbsp;Max and Fusion&nbsp;360 references to the dimensions recorded in this dossier — it is not the original 1.03&nbsp;M-quad asset or the original parametric solid. Silhouette, proportion, component placement and every feature are carried across from the source; nothing was added to make a render more attractive. The clay comparisons in stage 05 show the same model with its materials stripped, at the same camera.</p>
+    <p><strong>The engine is not the one in the brief.</strong> Stage 05's specification was written for V-Ray or Corona against <span class="mono">PhysCamera002</span>. The plates on this page were rendered in Cycles, so read those settings as the intent and the result as the Cycles equivalent.</p>
+    <p>Everything outside stages 05 and 06 remains hand-authored vector drawing — which is why it carries tolerances, section cuts and callouts a render cannot. Dimensions are marked <strong>reconstructed</strong> throughout: proportionally derived and internally consistent, not measured off the original model. Substitute the real parameter values before releasing anything for manufacture.</p>
   </div>
 </div>
 <section class="sec" id="s01">
@@ -1680,10 +1826,159 @@ html{scroll-behavior:smooth}
     <div class="sec-head rv">
       <span class="lbl">Stage 05</span>
       <h2>Photorealistic Visualization</h2>
-      <p>Seven plates, fully specified and not yet rendered. Each sheet carries the camera, the lens, the exposure triangle, the focus target and the light rig — enough that two people working from it produce the same frame. The rig is described once; only the camera moves between plates.</p>
+      <p>Fourteen plates, path-traced in Blender Cycles from geometry rebuilt to the
+        dimensions recorded in this dossier. Physically based materials, global illumination,
+        real depth of field and real contact shadows &mdash; no photograph and no
+        AI-generated image anywhere on this page.</p>
     </div>
-
     <div class="stack">
+      <span class="lbl" style="display:block">Project 01 &middot; COUCH</span>
+      <figure class="shot shot-lead">
+  <img class="shot-img" src="img/couch_hero-700.jpg" srcset="img/couch_hero-1240.jpg 1240w, img/couch_hero-700.jpg 700w" sizes="(max-width: 900px) 100vw, 1200px" alt="The black leather sofa seen at three-quarters in a contemporary room with an oak floor and north-facing window." width="1240" height="780" loading="eager" fetchpriority="high" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">HERO 01</span>
+    <span class="shot-desc">Three-quarter visualization, contemporary interior</span>
+    <span class="shot-tech">50 mm · f/4 · camera 0.96 m · north window key</span>
+  </figcaption>
+</figure>
+<div class="shotgrid"><figure class="shot">
+  <img class="shot-img" src="img/couch_studio-700.jpg" srcset="img/couch_studio-1240.jpg 1240w, img/couch_studio-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="The sofa isolated on a neutral studio sweep with a soft contact shadow." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">HERO 02</span>
+    <span class="shot-desc">Studio visualization, seamless neutral sweep</span>
+    <span class="shot-tech">85 mm · f/7.1 · 3 × 4 m key at 45° · strip rim</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/couch_front-700.jpg" srcset="img/couch_front-1240.jpg 1240w, img/couch_front-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Straight-on front view of the sofa showing the continuous top rail and eleven button tufts." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">VIEW 01</span>
+    <span class="shot-desc">Front elevation, long lens</span>
+    <span class="shot-tech">135 mm · f/11 · camera 7.4 m · perspective flattened</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/couch_rear-700.jpg" srcset="img/couch_rear-1240.jpg 1240w, img/couch_rear-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Rear three-quarter view showing the unbroken outside back." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">VIEW 02</span>
+    <span class="shot-desc">Rear three-quarter — the outside back</span>
+    <span class="shot-tech">85 mm · f/5.6 · rim-led, proves the single continuous skin</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/couch_detail-700.jpg" srcset="img/couch_detail-1240.jpg 1240w, img/couch_detail-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Macro of a self-covered button, the welt cord and the pore grain of the hide." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">DETAIL 01</span>
+    <span class="shot-desc">Tufting, welt cord and hide grain</span>
+    <span class="shot-tech">105 mm · f/4 · 0.62 m · focus on the button crown</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/couch_lifestyle-700.jpg" srcset="img/couch_lifestyle-1240.jpg 1240w, img/couch_lifestyle-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Wide interior view with the sofa, a rug, a side table and an oval wall piece." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">LIFESTYLE 01</span>
+    <span class="shot-desc">Contemporary interior, north light</span>
+    <span class="shot-tech">35 mm · f/3.5 · eye level 1.50 m</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/couch_alt-700.jpg" srcset="img/couch_alt-1240.jpg 1240w, img/couch_alt-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="The same sofa rendered in cognac aniline leather instead of black." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">FINISH 01</span>
+    <span class="shot-desc">Alternate colourway — cognac aniline</span>
+    <span class="shot-tech">Same geometry and rig; base colour swapped in the material graph</span>
+  </figcaption>
+</figure></div>
+      <div class="ba rv">
+  <div class="ba-head">
+    <span class="lbl lbl-a">From CAD to visualization</span>
+    <h3>The same model, twice</h3>
+    <p>Left is the untextured geometry; right is the finished plate. Identical build, identical camera, identical framing &mdash; only the materials and the light differ. Drag the divider.</p>
+  </div>
+  <div class="ba-stage" id="ba-couch-clay">
+    <div class="ba-base"><img class="ba-img" src="img/couch_studio-700.jpg" srcset="img/couch_studio-1240.jpg 1240w, img/couch_studio-700.jpg 700w" sizes="(max-width:900px) 100vw, 1100px" alt="The sofa isolated on a neutral studio sweep with a soft contact shadow." width="1240" height="780" loading="lazy" decoding="async"></div>
+    <div class="ba-clip"><img class="ba-img" src="img/couch_clay-700.jpg" srcset="img/couch_clay-1240.jpg 1240w, img/couch_clay-700.jpg 700w" sizes="(max-width:900px) 100vw, 1100px" alt="Untextured clay pass of the sofa geometry at the studio camera." width="1240" height="780" loading="lazy" decoding="async"></div>
+    <span class="ba-tag ba-tag-l">Source geometry</span>
+    <span class="ba-tag ba-tag-r">Final visualization</span>
+    <input class="ba-range" type="range" min="0" max="100" value="50" step="0.1"
+           aria-label="Reveal source geometry against final visualization">
+    <div class="ba-divider" aria-hidden="true"></div>
+  </div>
+  <p class="ba-foot mono">Source geometry &rarr; Final visualization</p>
+</div>
+      <span class="lbl" style="display:block">Project 02 &middot; PARAMETER</span>
+      <figure class="shot shot-lead">
+  <img class="shot-img" src="img/param_hero-700.jpg" srcset="img/param_hero-1240.jpg 1240w, img/param_hero-700.jpg 700w" sizes="(max-width: 900px) 100vw, 1200px" alt="Three-quarter view of the cream ABS instrument enclosure with its display lit." width="1240" height="780" loading="eager" fetchpriority="high" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">HERO 03</span>
+    <span class="shot-desc">Three-quarter product visualization</span>
+    <span class="shot-tech">85 mm · f/8 · 0.70 × 0.90 m key softbox</span>
+  </figcaption>
+</figure>
+<div class="shotgrid"><figure class="shot">
+  <img class="shot-img" src="img/param_studio-700.jpg" srcset="img/param_studio-1240.jpg 1240w, img/param_studio-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Studio view of the enclosure on a light sweep." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">HERO 04</span>
+    <span class="shot-desc">Studio visualization, light sweep</span>
+    <span class="shot-tech">100 mm · f/9 · lifted backdrop</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/param_front-700.jpg" srcset="img/param_front-1240.jpg 1240w, img/param_front-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Front view of the enclosure, display showing live readings." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">VIEW 03</span>
+    <span class="shot-desc">Front elevation, display driven</span>
+    <span class="shot-tech">120 mm · f/11 · STN backlight at 14 W emissive</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/param_rear-700.jpg" srcset="img/param_rear-1240.jpg 1240w, img/param_rear-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Rear view of the enclosure showing an unbroken face." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">VIEW 04</span>
+    <span class="shot-desc">Rear elevation — unbroken face</span>
+    <span class="shot-tech">85 mm · f/8 · no rear features exist in the source</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/param_top-700.jpg" srcset="img/param_top-1240.jpg 1240w, img/param_top-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Plan view with the lid removed, showing the populated board." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">VIEW 05</span>
+    <span class="shot-desc">Plan, lid removed</span>
+    <span class="shot-tech">100 mm · f/11 · nadir · all ten components in place</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/param_exploded-700.jpg" srcset="img/param_exploded-1240.jpg 1240w, img/param_exploded-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Exploded view: lid, board and base separated on the boss axis." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">ASSEMBLY 01</span>
+    <span class="shot-desc">Exploded assembly</span>
+    <span class="shot-tech">85 mm · f/11 · lid +75 mm, board +30 mm on the boss axis</span>
+  </figcaption>
+</figure><figure class="shot">
+  <img class="shot-img" src="img/param_controls-700.jpg" srcset="img/param_controls-1240.jpg 1240w, img/param_controls-700.jpg 700w" sizes="(max-width: 700px) 100vw, 620px" alt="Close-up of the knurled control knob and the display window edge." width="1240" height="780" loading="lazy" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">DETAIL 02</span>
+    <span class="shot-desc">Control interface and display window</span>
+    <span class="shot-tech">100 mm · f/4 · knurl and dot matrix at true scale</span>
+  </figcaption>
+</figure></div>
+      <div class="ba rv">
+  <div class="ba-head">
+    <span class="lbl lbl-a">From CAD to visualization</span>
+    <h3>Shell geometry to finished product</h3>
+    <p>The enclosure carries no rear features because the source model has none. Nothing was added to make the render more attractive.</p>
+  </div>
+  <div class="ba-stage" id="ba-param-clay">
+    <div class="ba-base"><img class="ba-img" src="img/param_hero-700.jpg" srcset="img/param_hero-1240.jpg 1240w, img/param_hero-700.jpg 700w" sizes="(max-width:900px) 100vw, 1100px" alt="Three-quarter view of the cream ABS instrument enclosure with its display lit." width="1240" height="780" loading="lazy" decoding="async"></div>
+    <div class="ba-clip"><img class="ba-img" src="img/param_clay-700.jpg" srcset="img/param_clay-1240.jpg 1240w, img/param_clay-700.jpg 700w" sizes="(max-width:900px) 100vw, 1100px" alt="Untextured clay pass of the enclosure geometry at the hero camera." width="1240" height="780" loading="lazy" decoding="async"></div>
+    <span class="ba-tag ba-tag-l">Source geometry</span>
+    <span class="ba-tag ba-tag-r">Final visualization</span>
+    <input class="ba-range" type="range" min="0" max="100" value="50" step="0.1"
+           aria-label="Reveal source geometry against final visualization">
+    <div class="ba-divider" aria-hidden="true"></div>
+  </div>
+  <p class="ba-foot mono">Source geometry &rarr; Final visualization</p>
+</div>
+      <details class="tech rv">
+        <summary><span class="lbl lbl-a">Camera, lighting and render data</span>
+          <span class="tech-sum">Rig plan, eleven camera sheets, output settings</span></summary>
+        <div class="tech-body">
+          <p class="tech-lead">The specification the plates above were shot to. It was
+            originally written for V-Ray or Corona against <span class="mono">PhysCamera002</span>;
+            the plates on this page were rendered in Cycles, so treat the engine settings as
+            the intent and the Cycles equivalents as what actually ran.</p>
+          
       <div class="vp rv">
         <div class="vp-bar">
           <span class="lbl">Rig</span>
@@ -1978,6 +2273,8 @@ html{scroll-behavior:smooth}
           </ul>
         </div>
       </div>
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -1985,12 +2282,46 @@ html{scroll-behavior:smooth}
   <div class="wrap bind">
     <span class="bind-n">06</span>
     <div class="sec-head rv">
-      <span class="lbl">Stage 06</span>
-      <h2>Final Product</h2>
-      <p>Two finished specifications. One is upholstered, weighs about fifty kilos and is sold by its silhouette; the other fits in a hand and is sold by what it refuses to put on its front face. They were made the same way.</p>
+      <span class="lbl">Stage 06</span><h2>Product Film</h2>
+      <p>Two cinematic product films. They are not published until the MP4 files actually exist.</p>
     </div>
-
     <div class="stack">
+      <div class="motion-wrap rv"><div class="motion rv"><div class="motion-head"><span class="lbl lbl-a">Not yet rendered</span><h3>The films are still rendering</h3></div><div class="motion-frame"><p class="motion-note">No MP4 exists yet, so nothing is embedded here. This panel is a placeholder, not a still presented as footage.</p></div></div></div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="s07">
+  <div class="wrap bind">
+    <span class="bind-n">07</span>
+    <div class="sec-head rv">
+      <span class="lbl">Stage 07</span>
+      <h2>Final Product</h2>
+      <p>What the two objects look like made, finished and photographed &mdash; followed by
+        the numbers, the materials and the drawings that got them there.</p>
+    </div>
+    <div class="stack">
+      <figure class="shot shot-lead">
+  <img class="shot-img" src="img/couch_hero-700.jpg" srcset="img/couch_hero-1240.jpg 1240w, img/couch_hero-700.jpg 700w" sizes="(max-width: 900px) 100vw, 1200px" alt="The black leather sofa seen at three-quarters in a contemporary room with an oak floor and north-facing window." width="1240" height="780" loading="eager" fetchpriority="high" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">FINAL 01</span>
+    <span class="shot-desc">COUCH &mdash; 2.5-seat leather sofa</span>
+    <span class="shot-tech">Black full-aniline hide, ebonised ash legs, 1920 &times; 820 &times; 800 mm</span>
+  </figcaption>
+</figure>
+      <figure class="shot shot-lead">
+  <img class="shot-img" src="img/param_hero-700.jpg" srcset="img/param_hero-1240.jpg 1240w, img/param_hero-700.jpg 700w" sizes="(max-width: 900px) 100vw, 1200px" alt="Three-quarter view of the cream ABS instrument enclosure with its display lit." width="1240" height="780" loading="eager" fetchpriority="high" decoding="async">
+  <figcaption class="shot-cap">
+    <span class="shot-id">FINAL 02</span>
+    <span class="shot-desc">PARAMETER &mdash; transformer monitor enclosure</span>
+    <span class="shot-tech">ABS RAL 9001, 140 &times; 126 &times; 54 mm</span>
+  </figcaption>
+</figure>
+      <div class="prog-wrap rv">
+        <span class="lbl lbl-a">Progression</span>
+        <h3 class="prog-title">Source geometry to finished plate</h3>
+        <ol class="prog rv"><li class="prog-step"><span class="prog-n mono">01</span><div class="prog-svg"><svg viewBox="0 0 240 120" role="img" aria-label="Front elevation line drawing"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" d="M24 92 L24 44 C24 40 27 37 31 37 L36 37 C42 37 43 30 44 25 C45 19 48 16 53 16 L187 16 C192 16 195 19 196 25 C197 30 198 37 204 37 L209 37 C213 37 216 40 216 44 L216 92 Z"/><path fill="none" stroke="currentColor" stroke-width="2" opacity=".5" d="M36 76 L204 76 M44 37 L44 76 M196 37 L196 76"/><path fill="none" stroke="currentColor" stroke-width="3" d="M40 92 L34 116 M200 92 L206 116"/></svg></div><h4>Technical source</h4><p>Fusion 360 / 3ds Max reference</p></li><li class="prog-step"><span class="prog-n mono">02</span><div class="prog-img"><img class="" src="img/couch_clay-700.jpg" srcset="img/couch_clay-1240.jpg 1240w, img/couch_clay-700.jpg 700w" sizes="220px" alt="Untextured clay pass of the sofa geometry at the studio camera." width="1240" height="780" loading="lazy" decoding="async"></div><h4>3D model</h4><p>Rebuilt geometry, clay pass</p></li><li class="prog-step"><span class="prog-n mono">03</span><div class="prog-img"><img class="" src="img/couch_detail-700.jpg" srcset="img/couch_detail-1240.jpg 1240w, img/couch_detail-700.jpg 700w" sizes="220px" alt="Macro of a self-covered button, the welt cord and the pore grain of the hide." width="1240" height="780" loading="lazy" decoding="async"></div><h4>Material development</h4><p>Aniline hide, ebonised ash</p></li><li class="prog-step"><span class="prog-n mono">04</span><div class="prog-img"><img class="" src="img/couch_studio-700.jpg" srcset="img/couch_studio-1240.jpg 1240w, img/couch_studio-700.jpg 700w" sizes="220px" alt="The sofa isolated on a neutral studio sweep with a soft contact shadow." width="1240" height="780" loading="lazy" decoding="async"></div><h4>Photorealistic visualization</h4><p>Cycles, path traced</p></li><li class="prog-step"><span class="prog-n mono">05</span><div class="prog-img"><img class="" src="img/couch_hero-700.jpg" srcset="img/couch_hero-1240.jpg 1240w, img/couch_hero-700.jpg 700w" sizes="220px" alt="The black leather sofa seen at three-quarters in a contemporary room with an oak floor and north-facing window." width="1240" height="780" loading="lazy" decoding="async"></div><h4>Final product</h4><p>Catalogue plate</p></li></ol>
+      </div>
+      
       <div class="vp rv">
         <div class="vp-bar">
           <span class="lbl">Range</span>
@@ -2144,14 +2475,13 @@ html{scroll-behavior:smooth}
     </div>
   </div>
 </section>
-
 <footer class="foot">
   <div class="wrap bind">
     <div class="grid2">
       <div>
         <span class="lbl lbl-a">Colophon</span>
-        <h3 style="font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 120;font-weight:300;font-size:clamp(26px,3.6vw,40px);line-height:1.05;letter-spacing:-.025em;margin:14px 0 18px">Everything here was drawn.</h3>
-        <p style="color:var(--ink-2);font-size:15.5px;max-width:58ch">No renderer was run and no photograph was used. The drawings are vector geometry reconstructed from the 3ds&nbsp;Max viewports and the Fusion&nbsp;360 assembly, and they are dimensioned so the next person can either build from them or render from them. Stage 05 is the render brief that was never executed — hand it to V-Ray or Corona with <span class="mono">PhysCamera002</span> and the plates come out matched to the specification.</p>
+        <h3 style="font-family:Fraunces,Georgia,serif;font-variation-settings:'opsz' 120;font-weight:300;font-size:clamp(26px,3.6vw,40px);line-height:1.05;letter-spacing:-.025em;margin:14px 0 18px">Drawn, then rendered.</h3>
+        <p style="color:var(--ink-2);font-size:15.5px;max-width:58ch">The drawings are vector geometry reconstructed from the 3ds&nbsp;Max viewports and the Fusion&nbsp;360 assembly, dimensioned so the next person can build from them. That same reconstruction was then modelled and path-traced in Blender Cycles to produce the plates in stages 05 and 06 — real renders, no photographs, nothing AI-generated. Stage 05's original brief targeted V-Ray or Corona against <span class="mono">PhysCamera002</span>; it is kept there as the intent the Cycles plates were shot to.</p>
       </div>
       <div>
         <span class="lbl">Source</span>
@@ -2161,12 +2491,16 @@ html{scroll-behavior:smooth}
           <li><span class="k">Camera</span><span class="v">PhysCamera002</span></li>
           <li><span class="k">Units</span><span class="v">1 unit = 1 mm</span></li>
           <li><span class="k">Dimension status</span><span class="v">reconstructed</span></li>
-          <li><span class="k">Document</span><span class="v">Rev. C · 2026</span></li>
+          <li><span class="k">Render engine</span><span class="v">Blender Cycles</span></li>
+          <li><span class="k">Integrator</span><span class="v">path tracing + OIDN</span></li>
+          <li><span class="k">Document</span><span class="v">Rev. D · 2026</span></li>
         </ul>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px">
-          <span class="pill pill-a">Drawn, not rendered</span>
+          <span class="pill pill-a">Path-traced in Cycles</span>
           <span class="pill">Dimensions reconstructed</span>
           <span class="pill">Masses estimated</span>
+          <span class="pill">Geometry reconstructed</span>
+          <span class="pill">No AI imagery</span>
         </div>
       </div>
     </div>
@@ -2201,6 +2535,21 @@ html{scroll-behavior:smooth}
   }, { passive: true });
   spy();
 })();
+
+/* before/after reveal: the range input carries the interaction so keyboard and
+   screen readers get it for free; the divider is decorative. */
+(function () {
+  document.querySelectorAll(".ba-stage").forEach(function (stage) {
+    var input = stage.querySelector(".ba-range");
+    if (!input) return;
+    var apply = function () { stage.style.setProperty("--rev", input.value + "%"); };
+    input.addEventListener("input", apply);
+    input.addEventListener("change", apply);
+    apply();
+  });
+})();
+
 </script>
+
 </body>
 </html>

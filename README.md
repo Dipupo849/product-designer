@@ -1,7 +1,7 @@
 # Cage to Catalogue
 
 A six-stage product design dossier covering two objects taken from working files to a
-finished specification:
+finished, rendered product:
 
 - **COUCH** — a 2.5-seat leather sofa, subdivision-modelled in 3ds Max
 - **PARAMETER** — a mains-metering instrument enclosure, parametric assembly in Fusion 360
@@ -10,10 +10,9 @@ Open `index.html` in a browser, or serve the repo with GitHub Pages.
 
 ## What this is
 
-A single self-contained HTML page. No build step, no dependencies, no bundler. All
-drawings are hand-authored inline SVG; the only external request is Google Fonts.
-
-The six stages are a real sequence, not decoration:
+A single self-contained HTML page plus an `img/` folder. No build step, no dependencies,
+no bundler. The technical drawings are hand-authored inline SVG; the product plates are
+rendered images served at two widths with `srcset` and lazy loading.
 
 | Stage | Contents |
 | --- | --- |
@@ -21,25 +20,35 @@ The six stages are a real sequence, not decoration:
 | 02 CAD Development | Dimensioned enclosure drawings, internal layout, isolation architecture |
 | 03 3D Modelling | Mesh audit, subdivision ladder, sofa elevations and plan, section details |
 | 04 Materials & Finishes | Twelve materials specified for both workshop and renderer |
-| 05 Photorealistic Visualization | Lighting plan and eleven fully parameterised camera sheets |
-| 06 Final Product | Specifications, bill of materials, handover status |
+| 05 Photorealistic Visualization | The rendered plates, with camera data in a collapsed drawer |
+| 06 Final Product | Hero plates, progression strip, specifications, bill of materials |
 
-## Two things to read before using it
+## What every image actually is
 
-**The plates are drawn, not rendered.** No renderer was run and no photograph was
-used. Every view is vector geometry reconstructed from the source files and dimensioned,
-which is why the drawings carry tolerances, section cuts and callouts that a render
-cannot. Stage 05 is the render brief that was never executed — camera, lens, aperture,
-light positions and sizes, HDRI, ACES pipeline and pass list, written to run against
-`PhysCamera002`, the camera already in the scene.
+**The product plates are real renders.** They were path-traced in **Blender Cycles** —
+physically based materials, global illumination, real depth of field, real contact
+shadows. They are not photographs, and **no image on this page is AI-generated.**
 
-**Dimensions are reconstructed, not measured.** They are proportionally derived from the
-reference views and internally consistent, but they are not read off the original
-parametric model. Substitute the real parameter values before releasing anything for
-manufacture. Masses are volume-and-density estimates, not weighings.
+**The geometry behind them is a reconstruction.** It was rebuilt from the 3ds Max and
+Fusion 360 references to the dimensions recorded in the dossier. It is *not* the original
+1.03 M-quad asset or the original parametric solid. Silhouette, proportion, component
+placement and every feature are carried across from the source; nothing was added to make
+a render look better. The enclosure has no rear features because the source model has
+none.
 
-Both caveats are stated on the page itself, and the open items are listed in full in the
-handover panel at the end of stage 06.
+The two clay comparisons in stage 05 show the same model with its materials stripped, at
+the same camera — that is the evidence the renders came from the geometry.
+
+**The engine is not the one in the brief.** Stage 05's specification was written for V-Ray
+or Corona against `PhysCamera002`. The plates were rendered in Cycles, so read those
+settings as intent and the result as the Cycles equivalent.
+
+**Dimensions are reconstructed, not measured** — proportionally derived and internally
+consistent, but not read off the original parametric model. Masses are volume-and-density
+estimates. Substitute real parameter values before releasing anything for manufacture.
+
+There is no product video. The motion panel is a labelled specification, not a still
+image presented as footage.
 
 ## One finding worth keeping
 
@@ -58,14 +67,31 @@ borders, no triangles, no n-gons anywhere in a million-polygon model. A single s
 or triangulated cap would break the arithmetic. It is the cheapest watertightness check
 available and it costs one subtraction.
 
-A second reading is still open: `1,033,680 / 4³ = 16,151.25`, not an integer, so the
-render mesh is not a single uniform three-iteration subdivision of one cage. At least one
-shell group runs at a different iteration count. Worth confirming against the modifier
-stack before the file is archived.
+Still open: `1,033,680 / 4³ = 16,151.25`, not an integer, so the render mesh is not a
+single uniform three-iteration subdivision of one cage. At least one shell group runs at
+a different iteration count.
+
+## Reproducing the renders
+
+The scene is built entirely from script — there is no `.blend` file to lose.
+
+```
+couch.py         sofa geometry: lofted rail, per-vertex tufting, welts, splayed legs
+enclosure.py     shell booleans, knurled knob, 5x7 dot-matrix display geometry
+studio.py        materials, lighting rigs, cameras, Cycles render settings
+render_couch.py  blender -b -P render_couch.py -- <shot>
+render_param.py  blender -b -P render_param.py -- <shot>
+```
+
+They are included under `scene/`, so the claim on this page is checkable: install
+Blender, run a shot, compare. Renders in this repo were made with Blender 5.2.1 at
+1240 x 780, 110 samples (190 for interiors), adaptive sampling with OpenImageDenoise.
 
 ## Structure
 
 ```
-index.html    the complete dossier — single file, self-contained
+index.html    the complete dossier — one file
+img/          product plates, 1400 px and 700 px JPEG
+scene/        Blender scene generators (see above)
 README.md     this file
 ```
